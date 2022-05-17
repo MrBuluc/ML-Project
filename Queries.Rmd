@@ -12,17 +12,19 @@ df
 ```
 
 QUESTIONS:
-1. Köyde yaşayanlar, şehir merkezinde yaşayanlara göre daha başarılıdır. / başarısızdır.
+1. Köyde yaşayanlar, şehir merkezinde yaşayanlara göre daha başarılı mıdır ?
 
 2. Anne ve babanın ayrı olmasından kızlar / erkekler daha olumsuz etkilenmiştir.
 
-3. Hangi konu başarı için daha önemli?
+3. Hangi kolon başarı için daha önemlidir?
 
 4. Yeni bir öğrenci geçer not alabilir mi? (Biri geçer biri kalır 2 örnek yaparsak güzel olur)
 
-5. En benzer ve en farklı öğrenciler (anlamlı olur mu bilemedim)
+5. En benzer ve en farklı öğrenciler (4 col)
 
-1. Köyde yaşayanlar, şehir merkezinde yaşayanlara göre daha başarılıdır. / başarısızdır.
+6. Anne babanın eğitim durumu hangi sınıf seviyesinde daha etkilidir?
+
+1. Köyde yaşayanlar, şehir merkezinde yaşayanlara göre daha başarılı mıdır ?
 
 Answer 1
 
@@ -49,4 +51,16 @@ install.packages("FSelector")
 library(FSelector)
 
 information.gain(formula(df), df)
+```
+4. Yeni bir öğrenci geçer not alabilir mi? (Biri geçer biri kalır 2 örnek yaparsak güzel olur)
+
+Answer 4
+
+```{r}
+ort <- mean(df$ORTALAMALAR)
+ort
+df <- transform(df, "Geçer Mİ"= ifelse(ort >= ORTALAMALAR, 0, 1))
+data.frame(df$ORTALAMALAR,df$Geçer.Mİ)
+df
+df = df[,!(names(df) %in% c("Geçer.Mİ","Geçer.Mİ.1", "Geçer.Mİ.2"))]
 ```
