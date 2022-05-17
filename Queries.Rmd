@@ -37,3 +37,16 @@ Answer 2
 ```{r}
 
 ```
+
+3. Hangi konu başarı için daha önemli?
+
+Answer 3
+
+```{r}
+install.packages("devtools")
+install.packages("rJava")
+install.packages("FSelector")
+library(FSelector)
+
+information.gain(formula(df), df)
+```
