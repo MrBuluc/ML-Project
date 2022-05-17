@@ -1,0 +1,39 @@
+---
+title: "Queries"
+output: html_document
+date: '2022-05-17'
+---
+
+Data excel dosyasından okundu
+
+```{r}
+df <- read_excel("C:/Users/HAKKICAN/Desktop/Ders Projeleri/AML_PROJECT/01.AML_DATA.xlsm")
+df
+```
+
+QUESTIONS:
+1. Köyde yaşayanlar, şehir merkezinde yaşayanlara göre daha başarılıdır. / başarısızdır.
+
+2. Anne ve babanın ayrı olmasından kızlar / erkekler daha olumsuz etkilenmiştir.
+
+3. Hangi konu başarı için daha önemli?
+
+4. Yeni bir öğrenci geçer not alabilir mi? (Biri geçer biri kalır 2 örnek yaparsak güzel olur)
+
+5. En benzer ve en farklı öğrenciler (anlamlı olur mu bilemedim)
+
+1. Köyde yaşayanlar, şehir merkezinde yaşayanlara göre daha başarılıdır. / başarısızdır.
+
+Answer 1
+
+```{r}
+
+```
+
+2. Anne ve babanın ayrı olmasından kızlar / erkekler daha olumsuz etkilenmiştir.
+
+Answer 2
+
+```{r}
+
+```
