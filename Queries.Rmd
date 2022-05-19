@@ -54,8 +54,18 @@ df
 #Column silmek için
 df = df[,!(names(df) %in% c("Geçer.Mİ","Geçer.Mİ.1", "Geçer.Mİ.2"))]
 
-Gain <- function()
+#df den sadece soruları aldık
+names(df)
+dfSorular <- df[, !(names(df) %in% c("OKUL", "SINIF", "NO", "ADI.SOYADI", "CİNSİYET.1..Erkek.0..Kız", "İKAMET.1..Merkez.0..Köy", "ORTALAMA"))]
+
+install.packages("FSelectorRcpp")
+library("FSelectorRcpp")
+informatinGain <- information_gain(formula(dfSorular), dfSorular, equal = FALSE)
+maxGain <- max(informatinGain$importance)
+maxGainIndex <- match(maxGain, informatinGain$importance)
+informatinGain$attributes[maxGainIndex]
 ```
+
 4. Yeni bir öğrenci geçer not alabilir mi? (Biri geçer biri kalır 2 örnek yaparsak güzel olur)
 
 Answer 4
