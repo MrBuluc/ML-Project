@@ -71,5 +71,43 @@ informatinGain$attributes[maxGainIndex]
 Answer 4
 
 ```{r}
+install.packages("e1071")
+install.packages("caTools")
+install.packages("caret")
 
+library(e1071)
+library(caTools)
+library(caret)
+
+# Splitting data into train
+# and test data
+split <- sample.split(dfSorular, SplitRatio = 0.7)
+split
+trainCl <- subset(dfSorular, split == "TRUE")
+trainCl
+testCl <- subset(dfSorular, split == "FALSE")
+testCl
+
+# Feature Scaling
+trainScale <- scale(trainCl[, 1:4])
+trainScale
+testScale <- scale(testCl[, 1:4])
+testScale
+
+# Fitting Naive Bayes Model
+# to training dataset
+set.seed(120) #Setting Seed
+classifierCl <- naiveBayes(formula(dfSorular), data = trainCl)
+classifierCl
+
+# Predicting on test data'
+yPred <- predict(classifierCl, newdata = testCl)
+yPred
+
+# Confusion Matrix
+cm <- table(testCl$Başarılı.Mı, yPred)
+cm
+
+# Model Evaluation
+confusionMatrix(cm)
 ```
