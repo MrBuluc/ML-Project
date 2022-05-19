@@ -71,6 +71,7 @@ informatinGain$attributes[maxGainIndex]
 Answer 4
 
 ```{r}
+#https://www.geeksforgeeks.org/naive-bayes-classifier-in-r-programming/
 install.packages("e1071")
 install.packages("caTools")
 install.packages("caret")
