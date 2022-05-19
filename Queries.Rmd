@@ -7,7 +7,7 @@ date: '2022-05-17'
 Data excel dosyasından okundu
 
 ```{r}
-df <- read_excel("C:/Users/HAKKICAN/Desktop/Ders Projeleri/AML_PROJECT/01.AML_DATA.xlsm")
+df <- read_excel("C:/Users/HAKKICAN/Desktop/Ders Projeleri/AML_PROJECT/01.AML_DATA.xls")
 df
 ```
 
@@ -40,27 +40,26 @@ Answer 2
 
 ```
 
-3. Hangi konu başarı için daha önemli?
+3. Hangi kolon başarı için daha önemlidir?
 
 Answer 3
 
 ```{r}
-install.packages("devtools")
-install.packages("rJava")
-install.packages("FSelector")
-library(FSelector)
+df$ORTALAMA
+ort <- mean(df$ORTALAMA)
+ort
+df <- transform(df, Başarılı.Mı= ifelse(ort >= ORTALAMA, 0, 1))
+data.frame(df$ORTALAMA,df$Başarılı.Mı)
+df
+#Column silmek için
+df = df[,!(names(df) %in% c("Geçer.Mİ","Geçer.Mİ.1", "Geçer.Mİ.2"))]
 
-information.gain(formula(df), df)
+Gain <- function()
 ```
 4. Yeni bir öğrenci geçer not alabilir mi? (Biri geçer biri kalır 2 örnek yaparsak güzel olur)
 
 Answer 4
 
 ```{r}
-ort <- mean(df$ORTALAMALAR)
-ort
-df <- transform(df, "Geçer Mİ"= ifelse(ort >= ORTALAMALAR, 0, 1))
-data.frame(df$ORTALAMALAR,df$Geçer.Mİ)
-df
-df = df[,!(names(df) %in% c("Geçer.Mİ","Geçer.Mİ.1", "Geçer.Mİ.2"))]
+
 ```
