@@ -40,8 +40,25 @@ df$IKAMET
 df$Başarılı.Mı
 koyDf <- filter(df, IKAMET == 0)
 basariliDf <- filter(df, Başarılı.Mı == 1)
-intersectDf <- intersect(koyDf, basariliDf)
+koyIntersectDf <- intersect(koyDf, basariliDf)
+# Kesişim df
+data.frame(koyIntersectDf$IKAMET, koyIntersectDf$Başarılı.Mı)
 
+koyBasariliSayisi <- nrow(koyIntersectDf)
+
+# Merkezde (1) yaşayan başarılı öğrenci (1) sayısı
+merkezDf <- filter(df, IKAMET == 1)
+merkezIntersectDf <- intersect(merkezDf, basariliDf)
+# Kesişim df
+data.frame(merkezIntersectDf$IKAMET, merkezIntersectDf$Başarılı.Mı)
+
+merkezBasariliSayisi <- nrow(merkezIntersectDf)
+if (koyBasariliSayisi > merkezBasariliSayisi) {
+  print("Köy başarılı")
+} else {
+  print("Merkez başarılı")
+}
+  
 ```
 
 2. Anne ve babanın ayrı olmasından kızlar / erkekler daha olumsuz etkilenmiştir.
