@@ -171,3 +171,28 @@ maxOrtIndex <- match(maxOrt, df$ORTALAMA)
 df$`ADI SOYADI`[maxOrtIndex]
 ```
 
+5. En benzer ve en farklı öğrenciler (4 col)
+
+Answer 5
+
+```{r}
+install.packages("cluster")
+library(cluster)
+df$ADI.SOYADI
+df$Anne.en.fazla.ilkokul.mezunu.mu.
+df$Anne.ve.baba.boşanmış.mı.
+df$Anne.hayatta.değil
+df$Dede.Nene.ile.Yaşayan
+fourCol <- df[, (names(df) %in% c("ADI.SOYADI", "Anne.en.fazla.ilkokul.mezunu.mu.", "Anne.ve.baba.boşanmış.mı.", "Anne.hayatta.değil", "Dede.Nene.ile.Yaşayan"))]
+fourCol
+```
+
+
+6. Anne babanın eğitim durumu hangi sınıf seviyesinde daha etkilidir?
+
+Answer 6
+
+```{r}
+
+```
+
