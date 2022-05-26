@@ -11,7 +11,7 @@ Data excel dosyasından okundu
 
 ```{r}
 library(readxl)
-df <- read_excel("C:/Users/HAKKICAN/Desktop/Ders Projeleri/AML_PROJECT/01.AML_DATA.xls")
+df <- read_excel("C:/Users/HAKKICAN/Desktop/Ders Projeleri/AML_PROJECT/01.AML_DATA_Etiketleri_Duzenlenmis.xls")
 df
 ```
 
@@ -33,6 +33,14 @@ QUESTIONS:
 Answer 1
 
 ```{r}
+install.packages("dplyr")
+library(dplyr)
+# Köyde (0) yaşayan başarılı öğrenci (1) sayısı
+df$IKAMET
+df$Başarılı.Mı
+koyDf <- filter(df, IKAMET == 0)
+basariliDf <- filter(df, Başarılı.Mı == 1)
+intersectDf <- intersect(koyDf, basariliDf)
 
 ```
 
@@ -116,3 +124,11 @@ cm
 # Model Evaluation
 confusionMatrix(cm)
 ```
+En başarılı öğrenci
+
+```{r}
+maxOrt <- max(df$ORTALAMA)
+maxOrtIndex <- match(maxOrt, df$ORTALAMA)
+df$`ADI SOYADI`[maxOrtIndex]
+```
+
