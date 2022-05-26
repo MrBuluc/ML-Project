@@ -13,6 +13,14 @@ Data excel dosyasından okundu
 library(readxl)
 df <- read_excel("C:/Users/HAKKICAN/Desktop/Ders Projeleri/AML_PROJECT/01.AML_DATA_Etiketleri_Duzenlenmis.xls")
 df
+
+#Başarılı öğrencileri hesapla
+df$ORTALAMA
+ort <- mean(df$ORTALAMA)
+ort
+df <- transform(df, Başarılı.Mı= ifelse(ort >= ORTALAMA, 0, 1))
+data.frame(df$ORTALAMA,df$Başarılı.Mı)
+df
 ```
 
 QUESTIONS:
@@ -66,7 +74,27 @@ if (koyBasariliSayisi > merkezBasariliSayisi) {
 Answer 2
 
 ```{r}
+df$`Anne ve babası ayrı mı?`
 
+#Anne ve Baba ayrı mı (1) kız (0) ve başarısız (0) öğrenci sayısı
+df$CİNSİYET
+df$Başarılı.Mı
+anneVeBabaAyriMiKızBasarisizDf <- filter(df, "Anne ve babası ayrı mı?" == 1 & CİNSİYET == 0 & Başarılı.Mı == 0)
+
+anneVeBabaAyriMiKızBasarisizSayisi <- nrow(anneVeBabaAyriMiKızBasarisizDf)
+
+#Anne ve Baba ayrı mı (1) erkek (1) ve başarısız (0) öğrenci sayısı
+anneVeBabaAyriMiErkekBasarisizDf <- filter(df, "Anne ve babası ayrı mı?" == 1 & CİNSİYET == 1 & Başarılı.Mı == 0)
+
+anneVeBabaAyriMiErkekBasarisizSayisi <- nrow(anneVeBabaAyriMiErkekBasarisizDf)
+
+if (anneVeBabaAyriMiKızBasarisizSayisi > anneVeBabaAyriMiErkekBasarisizSayisi) {
+  print("Anne ve Baba ayrımından en çok etkilenen öğrenciler kız öğrencilerdir.")
+} else if (anneVeBabaAyriMiKızBasarisizSayisi < anneVeBabaAyriMiErkekBasarisizSayisi) {
+  print("Anne ve Baba ayrımından en çok etkilenen öğrenciler erkek öğrencilerdir.")
+} else {
+  print("Anne ve Babanın ayrımından her iki cinsiyetde eşit etkileniyor.")
+}
 ```
 
 3. Hangi kolon başarı için daha önemlidir?
@@ -74,12 +102,6 @@ Answer 2
 Answer 3
 
 ```{r}
-df$ORTALAMA
-ort <- mean(df$ORTALAMA)
-ort
-df <- transform(df, Başarılı.Mı= ifelse(ort >= ORTALAMA, 0, 1))
-data.frame(df$ORTALAMA,df$Başarılı.Mı)
-df
 #Column silmek için
 df = df[,!(names(df) %in% c("Geçer.Mİ","Geçer.Mİ.1", "Geçer.Mİ.2"))]
 
