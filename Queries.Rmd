@@ -64,7 +64,7 @@ merkezBasariliSayisi <- nrow(merkezIntersectDf)
 if (koyBasariliSayisi > merkezBasariliSayisi) {
   print("Köy başarılı")
 } else {
-  print("Merkez başarılı")
+  print("Şehir Merkez başarılı")
 }
   
 ```
@@ -74,17 +74,17 @@ if (koyBasariliSayisi > merkezBasariliSayisi) {
 Answer 2
 
 ```{r}
-df$`Anne ve babası ayrı mı?`
+df$Anne.ve.babası.ayrı.mı.
 
 #Anne ve Baba ayrı mı (1) kız (0) ve başarısız (0) öğrenci sayısı
-df$CİNSİYET
+df$CINSIYET
 df$Başarılı.Mı
-anneVeBabaAyriMiKızBasarisizDf <- filter(df, "Anne ve babası ayrı mı?" == 1 & CİNSİYET == 0 & Başarılı.Mı == 0)
+anneVeBabaAyriMiKızBasarisizDf <- filter(df, Anne.ve.babası.ayrı.mı. == 1 & CINSIYET == 0 & Başarılı.Mı == 0)
 
 anneVeBabaAyriMiKızBasarisizSayisi <- nrow(anneVeBabaAyriMiKızBasarisizDf)
 
 #Anne ve Baba ayrı mı (1) erkek (1) ve başarısız (0) öğrenci sayısı
-anneVeBabaAyriMiErkekBasarisizDf <- filter(df, "Anne ve babası ayrı mı?" == 1 & CİNSİYET == 1 & Başarılı.Mı == 0)
+anneVeBabaAyriMiErkekBasarisizDf <- filter(df, Anne.ve.babası.ayrı.mı. == 1 & CINSIYET == 1 & Başarılı.Mı == 0)
 
 anneVeBabaAyriMiErkekBasarisizSayisi <- nrow(anneVeBabaAyriMiErkekBasarisizDf)
 
@@ -107,11 +107,11 @@ df = df[,!(names(df) %in% c("Geçer.Mİ","Geçer.Mİ.1", "Geçer.Mİ.2"))]
 
 #df den sadece soruları aldık
 names(df)
-dfSorular <- df[, !(names(df) %in% c("OKUL", "SINIF", "NO", "ADI.SOYADI", "CİNSİYET.1..Erkek.0..Kız", "İKAMET.1..Merkez.0..Köy", "ORTALAMA"))]
+dfSorular <- df[, !(names(df) %in% c("OKUL", "SINIF", "NO", "ADI.SOYADI", "CINSIYET", "IKAMET", "ORTALAMA"))]
 
 install.packages("FSelectorRcpp")
 library("FSelectorRcpp")
-informatinGain <- information_gain(formula(dfSorular), dfSorular, equal = FALSE)
+informatinGain <- information_gain(formula(dfSorular), dfSorular, equal = TRUE)
 maxGain <- max(informatinGain$importance)
 maxGainIndex <- match(maxGain, informatinGain$importance)
 informatinGain$attributes[maxGainIndex]
@@ -168,7 +168,7 @@ En başarılı öğrenci
 ```{r}
 maxOrt <- max(df$ORTALAMA)
 maxOrtIndex <- match(maxOrt, df$ORTALAMA)
-df$`ADI SOYADI`[maxOrtIndex]
+df$ADI.SOYADI[maxOrtIndex]
 ```
 
 5. En benzer ve en farklı öğrenciler (4 col)
