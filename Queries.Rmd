@@ -193,6 +193,36 @@ fourCol
 Answer 6
 
 ```{r}
+df$Anne.en.fazla.ilkokul.mezunu.mu.
+df$Baba.en.fazla.ilkokul.mezunu.mu.
+df1 <- transform(df, Anne.ve.Baba.en.fazla.ilkokul.mezunu.Mu = ifelse(Anne.en.fazla.ilkokul.mezunu.mu. & Baba.en.fazla.ilkokul.mezunu.mu., 1, 0))
+data.frame(df1$Anne.en.fazla.ilkokul.mezunu.mu., df1$Baba.en.fazla.ilkokul.mezunu.mu., df1$Anne.ve.Baba.en.fazla.ilkokul.mezunu.Mu)
 
+library(data.table)
+df1$SINIF
+dt9 <- data.table(df1)[SINIF %like% "9"]
+dt10 <- data.table(df1)[SINIF %like% "10"]
+dt11 <- data.table(df1)[SINIF %like% "11"]
+dt12 <- data.table(df1)[SINIF %like% "12"]
+
+dt9 <- filter(dt9, Anne.ve.Baba.en.fazla.ilkokul.mezunu.Mu == 0)
+dt10 <- filter(dt10, Anne.ve.Baba.en.fazla.ilkokul.mezunu.Mu == 0)
+dt11 <- filter(dt11, Anne.ve.Baba.en.fazla.ilkokul.mezunu.Mu == 0)
+dt12 <- filter(dt12, Anne.ve.Baba.en.fazla.ilkokul.mezunu.Mu == 0)
+
+dt9Mean <- mean(dt9$ORTALAMA)
+dt10Mean <- mean(dt10$ORTALAMA)
+dt11Mean <- mean(dt11$ORTALAMA)
+dt12Mean <- mean(dt12$ORTALAMA)
+
+if (dt9Mean > dt10Mean && dt9Mean > dt11Mean && dt9Mean > dt12Mean) {
+  print("Anne ve babanın eğitim durumu en fazla 9. sınıfları etkilemiştir.")
+} else if (dt10Mean > dt9Mean && dt10Mean > dt11Mean && dt10Mean > dt12Mean) {
+  print("Anne ve babanın eğitim durumu en fazla 10. sınıfları etkilemiştir.")
+} else if (dt11Mean > dt9Mean && dt11Mean > dt10Mean && dt11Mean > dt12Mean) {
+  print("Anne ve babanın eğitim durumu en fazla 11. sınıfları etkilemiştir.")
+} else {
+  print("Anne ve babanın eğitim durumu en fazla 12. sınıfları etkilemiştir.")
+}
 ```
 
