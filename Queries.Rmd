@@ -225,4 +225,34 @@ if (dt9Mean > dt10Mean && dt9Mean > dt11Mean && dt9Mean > dt12Mean) {
   print("Anne ve babanın eğitim durumu en fazla 12. sınıfları etkilemiştir.")
 }
 ```
+Data Summary
+```{r}
+names(df)
+
+#Okul
+nrow(filter(df, OKUL == "OAL"))
+nrow(filter(df, OKUL == "YEAL"))
+
+#Sınıf
+nrow(dt9)
+nrow(dt10)
+nrow(dt11)
+nrow(dt12)
+
+#Cinsiyet
+#Erkek
+nrow(filter(df, CINSIYET == 1))
+#Kız
+nrow(filter(df, CINSIYET == 0))
+
+#İkamet
+#Merkez
+nrow(filter(df, IKAMET == 1))
+#Köy
+nrow(filter(df, IKAMET == 0))
+
+#Ortalama
+mean(df$ORTALAMA)
+```
+
 
