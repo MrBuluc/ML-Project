@@ -1,89 +1,128 @@
 ---
 title: "AML Project"
 output: html_document
-date: '2022-05-17'
+date: '2022-06-01'
 ---
+Rapor için data summary yapılabilir (öğrencilerin yüzde kaçının annesi ölmüş gibi) sunum yapılacak herkes orada olacak sunum paylaşılacak rapor yazılacak. template paylaşılacak
+
 GROUP MEMBERS
-180709061 - Hakkıcan BÜLÜÇ
-180709018 - Hüseyin ÇOBAN
-200709078 - Adem VAROL
+Hakkıcan BÜLÜÇ - 180709061
+Hüseyin ÇOBAN - 180709018
+Adem VAROL - 200709078
 
 Data Summary
 
+Data excel dosyasından okundu
 ```{r}
 install.packages("readxl")
 library(readxl)
-#datanın olduğu path i girin
-#df <- read_excel("C:/Users/HAKKICAN/Desktop/Ders #Projeleri/AML_PROJECT/01.AML_DATA_Etiketleri_Duzenlenmis.xls")
+# datanın olduğu path i girin
 df <- read_excel("01.AML_DATA_Etiketleri_Duzenlenmis.xls")
 df
 names(df)
 ```
 ```{r}
-#Okul
-filter(df, )
+install.packages("dplyr")
+library(dplyr)
+# Okul
+# Ortaca Anadolu Lisesi (oal) öğrenci sayısı
 nrow(filter(df, OKUL == "OAL"))
+```
+```{r}
+# Yunus Emre Anadolu Lisesi (yeal) öğrenci sayısı
 nrow(filter(df, OKUL == "YEAL"))
-
-#Sınıf
+```
+```{r}
+# Sınıf
+library(data.table)
+#df1$SINIF
+dt9 <- data.table(df1)[SINIF %like% "9"]
+dt10 <- data.table(df1)[SINIF %like% "10"]
+dt11 <- data.table(df1)[SINIF %like% "11"]
+dt12 <- data.table(df1)[SINIF %like% "12"]
+# 9. sınıfların sayısı
 nrow(dt9)
+```
+```{r}
+# 10. sınıfların sayısı
 nrow(dt10)
+```
+```{r}
+# 11. sınıfların sayısı
 nrow(dt11)
+```
+```{r}
+# 12. sınıfların sayısı
 nrow(dt12)
-
-#Cinsiyet
-#Erkek
+```
+```{r}
+# Cinsiyet
+# Erkek
 nrow(filter(df, CINSIYET == 1))
-#Kız
+```
+```{r}
+# Kız
 nrow(filter(df, CINSIYET == 0))
-
-#İkamet
-#Merkez
+```
+```{r}
+# İkamet
+# Merkez
 nrow(filter(df, IKAMET == 1))
-#Köy
+```
+```{r}
+# Köy
 nrow(filter(df, IKAMET == 0))
-
-#Ortalama
+```
+```{r}
+# Ortalama
 mean(df$ORTALAMA)
-oalMean <- mean(filter(df, OKUL == "OAL"))
-yealMean <- mean(filter(df, OKUL == "YEAL"))
-
+```
+```{r}
+# Oal Ortalama
+mean(filter(df, OKUL == "OAL")$ORTALAMA)
+```
+```{r}
+# Yeal Ortalama
+mean(filter(df, OKUL == "YEAL")$ORTALAMA)
+```
+```{r}
 #En başarılı öğrenci
-maxOrt <- max(df$ORTALAMA)
-maxOrtIndex <- match(maxOrt, df$ORTALAMA)
-df$ADI.SOYADI[maxOrtIndex]
+
+#maxOrt <- max(df$ORTALAMA)
+#maxOrtIndex <- match(maxOrt, df$ORTALAMA)
+#df$ADI.SOYADI[maxOrtIndex]
+
+df$`ADI SOYADI`[match(max(df$ORTALAMA), df$ORTALAMA)]
 
 ```
 
-Rapor için data summary yapılabilir (öğrencilerin yüzde kaçının annesi ölmüş gibi) sunum yapılacak herkes orada olacak sunum paylaşılacak rapor yazılacak. template paylaşılacak
-
-Data excel dosyasından okundu
 
 ```{r}
 #Başarılı öğrencileri hesapla
-df$ORTALAMA
+
+#df$ORTALAMA
 ort <- mean(df$ORTALAMA)
-ort
+#ort
 df <- transform(df, Başarılı.Mı= ifelse(ort >= ORTALAMA, 0, 1))
 data.frame(df$ORTALAMA,df$Başarılı.Mı)
-df
 ```
+
 
 QUESTIONS: 1. Köyde yaşayanlar, şehir merkezinde yaşayanlara göre daha başarılı mıdır ?
 
 Answer 1
 
 ```{r}
-install.packages("dplyr")
-library(dplyr)
 # Köyde (0) yaşayan başarılı öğrenci (1) sayısı
-df$IKAMET
-df$Başarılı.Mı
+
+#df$IKAMET
+#df$Başarılı.Mı
 koyDf <- filter(df, IKAMET == 0)
 basariliDf <- filter(df, Başarılı.Mı == 1)
 koyIntersectDf <- intersect(koyDf, basariliDf)
 # Kesişim df
-data.frame(koyIntersectDf$IKAMET, koyIntersectDf$Başarılı.Mı)
+
+#data.frame(koyIntersectDf$IKAMET, koyIntersectDf$Başarılı.Mı)
 
 koyBasariliSayisi <- nrow(koyIntersectDf)
 
@@ -91,9 +130,11 @@ koyBasariliSayisi <- nrow(koyIntersectDf)
 merkezDf <- filter(df, IKAMET == 1)
 merkezIntersectDf <- intersect(merkezDf, basariliDf)
 # Kesişim df
-data.frame(merkezIntersectDf$IKAMET, merkezIntersectDf$Başarılı.Mı)
+
+#data.frame(merkezIntersectDf$IKAMET, merkezIntersectDf$Başarılı.Mı)
 
 merkezBasariliSayisi <- nrow(merkezIntersectDf)
+
 if (koyBasariliSayisi > merkezBasariliSayisi) {
   print("Köy başarılı")
 } else {
@@ -102,16 +143,17 @@ if (koyBasariliSayisi > merkezBasariliSayisi) {
   
 ```
 
-2.  Anne ve babanın ayrı olmasından kızlar / erkekler daha olumsuz etkilenmiştir.
+2.  Anne ve babanın ayrı olmasından en olumsuz kızlar mı yoksa erkekler mi etkilenmiştir.
 
 Answer 2
 
 ```{r}
-df$Anne.ve.babası.ayrı.mı.
+#df$Anne.ve.babası.ayrı.mı.
 
 #Anne ve Baba ayrı mı (1) kız (0) ve başarısız (0) öğrenci sayısı
-df$CINSIYET
-df$Başarılı.Mı
+
+#df$CINSIYET
+#df$Başarılı.Mı
 anneVeBabaAyriMiKızBasarisizDf <- filter(df, Anne.ve.babası.ayrı.mı. == 1 & CINSIYET == 0 & Başarılı.Mı == 0)
 
 anneVeBabaAyriMiKızBasarisizSayisi <- nrow(anneVeBabaAyriMiKızBasarisizDf)
@@ -136,10 +178,12 @@ Answer 3
 
 ```{r}
 #Column silmek için
-df = df[,!(names(df) %in% c("Geçer.Mİ","Geçer.Mİ.1", "Geçer.Mİ.2"))]
+
+#df = df[,!(names(df) %in% c("Geçer.Mİ","Geçer.Mİ.1", "Geçer.Mİ.2"))]
 
 #df den sadece soruları aldık
-names(df)
+
+#names(df)
 dfSorular <- df[, !(names(df) %in% c("OKUL", "SINIF", "NO", "ADI.SOYADI", "CINSIYET", "IKAMET", "ORTALAMA"))]
 
 install.packages("FSelectorRcpp")
@@ -150,7 +194,7 @@ maxGainIndex <- match(maxGain, informatinGain$importance)
 informatinGain$attributes[maxGainIndex]
 ```
 
-4.  Yeni bir öğrenci geçer not alabilir mi? (Biri geçer biri kalır 2 örnek yaparsak güzel olur)
+4.  Yeni bir öğrenci geçer not alabilir mi?
 
 Answer 4
 
@@ -203,15 +247,15 @@ BAKILCAK OLMADI DEĞİŞECEK
 Answer 5
 
 ```{r}
-install.packages("cluster")
-library(cluster)
-df$ADI.SOYADI
-df$Anne.en.fazla.ilkokul.mezunu.mu.
-df$Anne.ve.baba.boşanmış.mı.
-df$Anne.hayatta.değil
-df$Dede.Nene.ile.Yaşayan
-fourCol <- df[, (names(df) %in% c("ADI.SOYADI", "Anne.en.fazla.ilkokul.mezunu.mu.", "Anne.ve.baba.boşanmış.mı.", "Anne.hayatta.değil", "Dede.Nene.ile.Yaşayan"))]
-fourCol
+#install.packages("cluster")
+#library(cluster)
+#df$ADI.SOYADI
+#df$Anne.en.fazla.ilkokul.mezunu.mu.
+#df$Anne.ve.baba.boşanmış.mı.
+#df$Anne.hayatta.değil
+#df$Dede.Nene.ile.Yaşayan
+#fourCol <- df[, (names(df) %in% c("ADI.SOYADI", "Anne.en.fazla.ilkokul.mezunu.mu.", "Anne.ve.baba.boşanmış.mı.", "Anne.hayatta.değil", "Dede.Nene.ile.Yaşayan"))]
+#fourCol
 ```
 
 6.  Anne babanın eğitim durumu hangi sınıf seviyesinde daha etkilidir?
@@ -219,17 +263,10 @@ fourCol
 Answer 6
 
 ```{r}
-df$Anne.en.fazla.ilkokul.mezunu.mu.
-df$Baba.en.fazla.ilkokul.mezunu.mu.
+#df$Anne.en.fazla.ilkokul.mezunu.mu.
+#df$Baba.en.fazla.ilkokul.mezunu.mu.
 df1 <- transform(df, Anne.ve.Baba.en.fazla.ilkokul.mezunu.Mu = ifelse(Anne.en.fazla.ilkokul.mezunu.mu. & Baba.en.fazla.ilkokul.mezunu.mu., 1, 0))
 data.frame(df1$Anne.en.fazla.ilkokul.mezunu.mu., df1$Baba.en.fazla.ilkokul.mezunu.mu., df1$Anne.ve.Baba.en.fazla.ilkokul.mezunu.Mu)
-
-library(data.table)
-df1$SINIF
-dt9 <- data.table(df1)[SINIF %like% "9"]
-dt10 <- data.table(df1)[SINIF %like% "10"]
-dt11 <- data.table(df1)[SINIF %like% "11"]
-dt12 <- data.table(df1)[SINIF %like% "12"]
 
 dt9 <- filter(dt9, Anne.ve.Baba.en.fazla.ilkokul.mezunu.Mu == 0)
 dt10 <- filter(dt10, Anne.ve.Baba.en.fazla.ilkokul.mezunu.Mu == 0)

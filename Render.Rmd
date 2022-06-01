@@ -1,0 +1,10 @@
+---
+title: "Render"
+output: html_document
+date: '2022-06-01'
+---
+
+```{r}
+library(rmarkdown)
+render("Queries.Rmd", output_format = "html_document")
+```
