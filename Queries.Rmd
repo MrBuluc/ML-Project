@@ -1,17 +1,61 @@
 ---
-title: "Queries"
+title: "AML Project"
 output: html_document
 date: '2022-05-17'
 ---
-Rapor için data summary yapılabilir (öğrencilerin yüzde kaçının annesi ölmüş gibi)
-sunum yapılacak herkes orada olacak sunum paylaşılacak
-rapor yazılacak. template paylaşılacak
+GROUP MEMBERS
+180709061 - Hakkıcan BÜLÜÇ
+180709018 - Hüseyin ÇOBAN
+200709078 - Adem VAROL
+
+Data Summary
+
+```{r}
+names(df)
+
+#Okul
+nrow(filter(df, OKUL == "OAL"))
+nrow(filter(df, OKUL == "YEAL"))
+
+#Sınıf
+nrow(dt9)
+nrow(dt10)
+nrow(dt11)
+nrow(dt12)
+
+#Cinsiyet
+#Erkek
+nrow(filter(df, CINSIYET == 1))
+#Kız
+nrow(filter(df, CINSIYET == 0))
+
+#İkamet
+#Merkez
+nrow(filter(df, IKAMET == 1))
+#Köy
+nrow(filter(df, IKAMET == 0))
+
+#Ortalama
+mean(df$ORTALAMA)
+oalMean <- mean(filter(df, OKUL == "OAL"))
+yealMean <- mean(filter(df, OKUL == "YEAL"))
+
+#En başarılı öğrenci
+maxOrt <- max(df$ORTALAMA)
+maxOrtIndex <- match(maxOrt, df$ORTALAMA)
+df$ADI.SOYADI[maxOrtIndex]
+```
+
+Rapor için data summary yapılabilir (öğrencilerin yüzde kaçının annesi ölmüş gibi) sunum yapılacak herkes orada olacak sunum paylaşılacak rapor yazılacak. template paylaşılacak
 
 Data excel dosyasından okundu
 
 ```{r}
+install.packages("readxl")
 library(readxl)
-df <- read_excel("C:/Users/HAKKICAN/Desktop/Ders Projeleri/AML_PROJECT/01.AML_DATA_Etiketleri_Duzenlenmis.xls")
+#datanın olduğu path i girin
+#df <- read_excel("C:/Users/HAKKICAN/Desktop/Ders #Projeleri/AML_PROJECT/01.AML_DATA_Etiketleri_Duzenlenmis.xls")
+df <- read_excel("01.AML_DATA_Etiketleri_Duzenlenmis.xls")
 df
 
 #Başarılı öğrencileri hesapla
@@ -23,20 +67,7 @@ data.frame(df$ORTALAMA,df$Başarılı.Mı)
 df
 ```
 
-QUESTIONS:
-1. Köyde yaşayanlar, şehir merkezinde yaşayanlara göre daha başarılı mıdır ?
-
-2. Anne ve babanın ayrı olmasından kızlar / erkekler daha olumsuz etkilenmiştir.
-
-3. Hangi kolon başarı için daha önemlidir?
-
-4. Yeni bir öğrenci geçer not alabilir mi? (Biri geçer biri kalır 2 örnek yaparsak güzel olur)
-
-5. En benzer ve en farklı öğrenciler (4 col)
-
-6. Anne babanın eğitim durumu hangi sınıf seviyesinde daha etkilidir?
-
-1. Köyde yaşayanlar, şehir merkezinde yaşayanlara göre daha başarılı mıdır ?
+QUESTIONS: 1. Köyde yaşayanlar, şehir merkezinde yaşayanlara göre daha başarılı mıdır ?
 
 Answer 1
 
@@ -69,7 +100,7 @@ if (koyBasariliSayisi > merkezBasariliSayisi) {
   
 ```
 
-2. Anne ve babanın ayrı olmasından kızlar / erkekler daha olumsuz etkilenmiştir.
+2.  Anne ve babanın ayrı olmasından kızlar / erkekler daha olumsuz etkilenmiştir.
 
 Answer 2
 
@@ -97,7 +128,7 @@ if (anneVeBabaAyriMiKızBasarisizSayisi > anneVeBabaAyriMiErkekBasarisizSayisi) 
 }
 ```
 
-3. Hangi kolon başarı için daha önemlidir?
+3.  Hangi özellik başarı için daha önemlidir?
 
 Answer 3
 
@@ -117,7 +148,7 @@ maxGainIndex <- match(maxGain, informatinGain$importance)
 informatinGain$attributes[maxGainIndex]
 ```
 
-4. Yeni bir öğrenci geçer not alabilir mi? (Biri geçer biri kalır 2 örnek yaparsak güzel olur)
+4.  Yeni bir öğrenci geçer not alabilir mi? (Biri geçer biri kalır 2 örnek yaparsak güzel olur)
 
 Answer 4
 
@@ -163,15 +194,9 @@ cm
 # Model Evaluation
 confusionMatrix(cm)
 ```
-En başarılı öğrenci
 
-```{r}
-maxOrt <- max(df$ORTALAMA)
-maxOrtIndex <- match(maxOrt, df$ORTALAMA)
-df$ADI.SOYADI[maxOrtIndex]
-```
-
-5. En benzer ve en farklı öğrenciler (4 col)
+BAKILCAK OLMADI DEĞİŞECEK
+5.  En benzer ve en farklı öğrenciler (4 col)
 
 Answer 5
 
@@ -187,8 +212,7 @@ fourCol <- df[, (names(df) %in% c("ADI.SOYADI", "Anne.en.fazla.ilkokul.mezunu.mu
 fourCol
 ```
 
-
-6. Anne babanın eğitim durumu hangi sınıf seviyesinde daha etkilidir?
+6.  Anne babanın eğitim durumu hangi sınıf seviyesinde daha etkilidir?
 
 Answer 6
 
@@ -215,6 +239,9 @@ dt10Mean <- mean(dt10$ORTALAMA)
 dt11Mean <- mean(dt11$ORTALAMA)
 dt12Mean <- mean(dt12$ORTALAMA)
 
+maxSinif <- max(dt9Mean, dt10Mean, dt11Mean, dt12Mean)
+maxSinif
+
 if (dt9Mean > dt10Mean && dt9Mean > dt11Mean && dt9Mean > dt12Mean) {
   print("Anne ve babanın eğitim durumu en fazla 9. sınıfları etkilemiştir.")
 } else if (dt10Mean > dt9Mean && dt10Mean > dt11Mean && dt10Mean > dt12Mean) {
@@ -225,34 +252,3 @@ if (dt9Mean > dt10Mean && dt9Mean > dt11Mean && dt9Mean > dt12Mean) {
   print("Anne ve babanın eğitim durumu en fazla 12. sınıfları etkilemiştir.")
 }
 ```
-Data Summary
-```{r}
-names(df)
-
-#Okul
-nrow(filter(df, OKUL == "OAL"))
-nrow(filter(df, OKUL == "YEAL"))
-
-#Sınıf
-nrow(dt9)
-nrow(dt10)
-nrow(dt11)
-nrow(dt12)
-
-#Cinsiyet
-#Erkek
-nrow(filter(df, CINSIYET == 1))
-#Kız
-nrow(filter(df, CINSIYET == 0))
-
-#İkamet
-#Merkez
-nrow(filter(df, IKAMET == 1))
-#Köy
-nrow(filter(df, IKAMET == 0))
-
-#Ortalama
-mean(df$ORTALAMA)
-```
-
-
