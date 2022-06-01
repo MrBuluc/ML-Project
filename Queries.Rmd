@@ -11,9 +11,17 @@ GROUP MEMBERS
 Data Summary
 
 ```{r}
+install.packages("readxl")
+library(readxl)
+#datanın olduğu path i girin
+#df <- read_excel("C:/Users/HAKKICAN/Desktop/Ders #Projeleri/AML_PROJECT/01.AML_DATA_Etiketleri_Duzenlenmis.xls")
+df <- read_excel("01.AML_DATA_Etiketleri_Duzenlenmis.xls")
+df
 names(df)
-
+```
+```{r}
 #Okul
+filter(df, )
 nrow(filter(df, OKUL == "OAL"))
 nrow(filter(df, OKUL == "YEAL"))
 
@@ -44,6 +52,7 @@ yealMean <- mean(filter(df, OKUL == "YEAL"))
 maxOrt <- max(df$ORTALAMA)
 maxOrtIndex <- match(maxOrt, df$ORTALAMA)
 df$ADI.SOYADI[maxOrtIndex]
+
 ```
 
 Rapor için data summary yapılabilir (öğrencilerin yüzde kaçının annesi ölmüş gibi) sunum yapılacak herkes orada olacak sunum paylaşılacak rapor yazılacak. template paylaşılacak
@@ -51,13 +60,6 @@ Rapor için data summary yapılabilir (öğrencilerin yüzde kaçının annesi �
 Data excel dosyasından okundu
 
 ```{r}
-install.packages("readxl")
-library(readxl)
-#datanın olduğu path i girin
-#df <- read_excel("C:/Users/HAKKICAN/Desktop/Ders #Projeleri/AML_PROJECT/01.AML_DATA_Etiketleri_Duzenlenmis.xls")
-df <- read_excel("01.AML_DATA_Etiketleri_Duzenlenmis.xls")
-df
-
 #Başarılı öğrencileri hesapla
 df$ORTALAMA
 ort <- mean(df$ORTALAMA)
