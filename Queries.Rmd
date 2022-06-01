@@ -8,7 +8,7 @@ GROUP MEMBERS
 180709018 - Hüseyin ÇOBAN
 200709078 - Adem VAROL
 
-Data Summary
+Data Summary (ADEM VAROL)
 
 ```{r}
 names(df)
