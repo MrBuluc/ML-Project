@@ -1,7 +1,7 @@
 ---
 title: "AML Project"
 output: html_document
-date: '2022-06-01'
+date: '2022-06-02'
 ---
 Rapor için data summary yapılabilir (öğrencilerin yüzde kaçının annesi ölmüş gibi) sunum yapılacak herkes orada olacak sunum paylaşılacak rapor yazılacak. template paylaşılacak
 
@@ -94,6 +94,52 @@ mean(filter(df, OKUL == "YEAL")$ORTALAMA)
 
 df$`ADI SOYADI`[match(max(df$ORTALAMA), df$ORTALAMA)]
 
+```
+```{r}
+#Oal öğrencilerinin anne veya babasının en fazla ilkokul mezuniyetini gösteren sütün grafik
+
+oal <- filter(df, OKUL == "OAL")
+oal <- oal[, (names(oal) %in% c("CINSIYET", "Anne en fazla ilkokul mezunu mu?", "Baba en fazla ilkokul mezunu mu?"))]
+oalErkekAnne1 <- nrow(filter(oal, CINSIYET == 1 & `Anne en fazla ilkokul mezunu mu?` == 1))
+oalErkekAnne0 <- nrow(filter(oal, CINSIYET == 1 & `Anne en fazla ilkokul mezunu mu?` == 0))
+oalErkekBaba1 <- nrow(filter(oal, CINSIYET == 1 & `Baba en fazla ilkokul mezunu mu?` == 1))
+oalErkekBaba0 <- nrow(filter(oal, CINSIYET == 1 & `Baba en fazla ilkokul mezunu mu?` == 0))
+
+oalKızAnne1 <- nrow(filter(oal, CINSIYET == 0 & `Anne en fazla ilkokul mezunu mu?` == 1))
+oalKızAnne0 <- nrow(filter(oal, CINSIYET == 0 & `Anne en fazla ilkokul mezunu mu?` == 0))
+oalKızBaba1 <- nrow(filter(oal, CINSIYET == 0 & `Baba en fazla ilkokul mezunu mu?` == 1))
+oalKızBaba0 <- nrow(filter(oal, CINSIYET == 0 & `Baba en fazla ilkokul mezunu mu?` == 0))
+
+xlab <- c("Anne ilkokul mezunu", "değil", "Baba ilkokul mezunu", "değil")
+ylab <- c(oalErkekAnne1, oalErkekAnne0, oalErkekBaba1, oalErkekBaba0,
+          oalKızAnne1, oalKızAnne0, oalKızBaba1, oalKızBaba0)
+
+oalMatrix <- matrix(ylab, 2, 4, byrow = TRUE, dimnames = list(c("Erkek", "Kız"), xlab))
+
+barplot(oalMatrix, col = c("red", "blue"), main = "Oal Anne veya Babasının En Fazla İlkokul Mezuniyetini Gösteren Grafik", names.arg = xlab)
+```
+
+```{r}
+#Yeal öğrencilerinin anne veya babasının en fazla ilkokul mezuniyetini gösteren sütün grafik
+
+yeal <- filter(df, OKUL == "YEAL")
+yeal <- yeal[, (names(yeal) %in% c("CINSIYET", "Anne en fazla ilkokul mezunu mu?", "Baba en fazla ilkokul mezunu mu?"))]
+yealErkekAnne1 <- nrow(filter(yeal, CINSIYET == 1 & `Anne en fazla ilkokul mezunu mu?` == 1))
+yealErkekAnne0 <- nrow(filter(yeal, CINSIYET == 1 & `Anne en fazla ilkokul mezunu mu?` == 0))
+yealErkekBaba1 <- nrow(filter(oal, CINSIYET == 1 & `Baba en fazla ilkokul mezunu mu?` == 1))
+yealErkekBaba0 <- nrow(filter(oal, CINSIYET == 1 & `Baba en fazla ilkokul mezunu mu?` == 0))
+
+yealKızAnne1 <- nrow(filter(oal, CINSIYET == 0 & `Anne en fazla ilkokul mezunu mu?` == 1))
+yealKızAnne0 <- nrow(filter(oal, CINSIYET == 0 & `Anne en fazla ilkokul mezunu mu?` == 0))
+yealKızBaba1 <- nrow(filter(oal, CINSIYET == 0 & `Baba en fazla ilkokul mezunu mu?` == 1))
+yealKızBaba0 <- nrow(filter(oal, CINSIYET == 0 & `Baba en fazla ilkokul mezunu mu?` == 0))
+
+ylabYeal <- c(yealErkekAnne1, yealErkekAnne0, yealErkekBaba1, yealErkekBaba0,
+              yealKızAnne1, yealKızAnne0, yealKızBaba1, yealKızBaba0)
+
+yealMatrix <- matrix(ylabYeal, 2, 4, byrow = TRUE, dimnames = list(c("Erkek", "Kız"), xlab))
+
+barplot(yealMatrix, col = c("red", "blue"), main = "Yeal Anne veya Babasının En Fazla İlkokul Mezuniyetini Gösteren Grafik", names.arg = xlab)
 ```
 
 
