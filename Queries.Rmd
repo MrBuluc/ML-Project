@@ -12,11 +12,11 @@ Adem VAROL - 200709078
 
 Data Summary
 
-Data excel dosyasından okundu
+Data read from excel file
 ```{r}
 install.packages("readxl")
 library(readxl)
-# datanın olduğu path i girin
+# Enter the path where the data is
 df <- read_excel("01.AML_DATA_Etiketleri_Duzenlenmis.xls")
 df
 names(df)
@@ -25,68 +25,68 @@ names(df)
 install.packages("dplyr")
 library(dplyr)
 # Okul
-# Ortaca Anadolu Lisesi (oal) öğrenci sayısı
+# Ortaca Anadolu Lisesi (oal) student count
 nrow(filter(df, OKUL == "OAL"))
 ```
 ```{r}
-# Yunus Emre Anadolu Lisesi (yeal) öğrenci sayısı
+# Yunus Emre Anadolu Lisesi (yeal) student count
 nrow(filter(df, OKUL == "YEAL"))
 ```
 ```{r}
-# Sınıf
+# Class
 library(data.table)
 #df1$SINIF
 dt9 <- data.table(df1)[SINIF %like% "9"]
 dt10 <- data.table(df1)[SINIF %like% "10"]
 dt11 <- data.table(df1)[SINIF %like% "11"]
 dt12 <- data.table(df1)[SINIF %like% "12"]
-# 9. sınıfların sayısı
+# 9. grade count
 nrow(dt9)
 ```
 ```{r}
-# 10. sınıfların sayısı
+# 10. grade count
 nrow(dt10)
 ```
 ```{r}
-# 11. sınıfların sayısı
+# 11. grade count
 nrow(dt11)
 ```
 ```{r}
-# 12. sınıfların sayısı
+# 12. grade count
 nrow(dt12)
 ```
 ```{r}
-# Cinsiyet
-# Erkek
+# Sex
+# boy
 nrow(filter(df, CINSIYET == 1))
 ```
 ```{r}
-# Kız
+# girl
 nrow(filter(df, CINSIYET == 0))
 ```
 ```{r}
-# İkamet
-# Merkez
+# From
+# City Center
 nrow(filter(df, IKAMET == 1))
 ```
 ```{r}
-# Köy
+# Village
 nrow(filter(df, IKAMET == 0))
 ```
 ```{r}
-# Ortalama
+# Mean
 mean(df$ORTALAMA)
 ```
 ```{r}
-# Oal Ortalama
+# Oal Mean
 mean(filter(df, OKUL == "OAL")$ORTALAMA)
 ```
 ```{r}
-# Yeal Ortalama
+# Yeal Mean
 mean(filter(df, OKUL == "YEAL")$ORTALAMA)
 ```
 ```{r}
-#En başarılı öğrenci
+#Most successful student
 
 #maxOrt <- max(df$ORTALAMA)
 #maxOrtIndex <- match(maxOrt, df$ORTALAMA)
@@ -96,7 +96,7 @@ df$`ADI SOYADI`[match(max(df$ORTALAMA), df$ORTALAMA)]
 
 ```
 ```{r}
-#Oal öğrencilerinin anne veya babasının en fazla ilkokul mezuniyetini gösteren sütün grafik
+#Bar graph showing the most elementary school graduations of Oal students' parents
 
 oal <- filter(df, OKUL == "OAL")
 oal <- oal[, (names(oal) %in% c("CINSIYET", "Anne en fazla ilkokul mezunu mu?", "Baba en fazla ilkokul mezunu mu?"))]
@@ -110,17 +110,17 @@ oalKızAnne0 <- nrow(filter(oal, CINSIYET == 0 & `Anne en fazla ilkokul mezunu m
 oalKızBaba1 <- nrow(filter(oal, CINSIYET == 0 & `Baba en fazla ilkokul mezunu mu?` == 1))
 oalKızBaba0 <- nrow(filter(oal, CINSIYET == 0 & `Baba en fazla ilkokul mezunu mu?` == 0))
 
-xlab <- c("Anne ilkokul mezunu", "değil", "Baba ilkokul mezunu", "değil")
+xlab <- c("Mother graduated", "not", "Father graduated", "not")
 ylab <- c(oalErkekAnne1, oalErkekAnne0, oalErkekBaba1, oalErkekBaba0,
           oalKızAnne1, oalKızAnne0, oalKızBaba1, oalKızBaba0)
 
-oalMatrix <- matrix(ylab, 2, 4, byrow = TRUE, dimnames = list(c("Erkek", "Kız"), xlab))
+oalMatrix <- matrix(ylab, 2, 4, byrow = TRUE, dimnames = list(c("Boy", "Girl"), xlab))
 
-barplot(oalMatrix, col = c("red", "blue"), main = "Oal Anne veya Babasının En Fazla İlkokul Mezuniyetini Gösteren Grafik", names.arg = xlab)
+barplot(oalMatrix, col = c("red", "blue"), main = "Showing The Most Elementary School Graduations of Oal Students' Parents", names.arg = xlab)
 ```
 
 ```{r}
-#Yeal öğrencilerinin anne veya babasının en fazla ilkokul mezuniyetini gösteren sütün grafik
+#Bar graph showing the most elementary school graduations of Yeal students' parents
 
 yeal <- filter(df, OKUL == "YEAL")
 yeal <- yeal[, (names(yeal) %in% c("CINSIYET", "Anne en fazla ilkokul mezunu mu?", "Baba en fazla ilkokul mezunu mu?"))]
@@ -137,14 +137,14 @@ yealKızBaba0 <- nrow(filter(oal, CINSIYET == 0 & `Baba en fazla ilkokul mezunu 
 ylabYeal <- c(yealErkekAnne1, yealErkekAnne0, yealErkekBaba1, yealErkekBaba0,
               yealKızAnne1, yealKızAnne0, yealKızBaba1, yealKızBaba0)
 
-yealMatrix <- matrix(ylabYeal, 2, 4, byrow = TRUE, dimnames = list(c("Erkek", "Kız"), xlab))
+yealMatrix <- matrix(ylabYeal, 2, 4, byrow = TRUE, dimnames = list(c("Boy", "Girl"), xlab))
 
-barplot(yealMatrix, col = c("red", "blue"), main = "Yeal Anne veya Babasının En Fazla İlkokul Mezuniyetini Gösteren Grafik", names.arg = xlab)
+barplot(yealMatrix, col = c("red", "blue"), main = "Showing The Most Elementary School Graduations of YEAL Students' Parents", names.arg = xlab)
 ```
 
 
 ```{r}
-#Başarılı öğrencileri hesapla
+#Calculate successful students
 
 #df$ORTALAMA
 ort <- mean(df$ORTALAMA)
@@ -154,49 +154,49 @@ data.frame(df$ORTALAMA,df$Başarılı.Mı)
 ```
 
 
-QUESTIONS: 1. Köyde yaşayanlar, şehir merkezinde yaşayanlara göre daha başarılı mıdır ?
+QUESTIONS: 1. Are students living in the village more successful than those living in the city center?
 
 Answer 1
 
 ```{r}
-# Köyde (0) yaşayan başarılı öğrenci (1) sayısı
+# Number of successful students (1) living in Village (0)
 
 #df$IKAMET
 #df$Başarılı.Mı
 koyDf <- filter(df, IKAMET == 0)
 basariliDf <- filter(df, Başarılı.Mı == 1)
 koyIntersectDf <- intersect(koyDf, basariliDf)
-# Kesişim df
+# Intersection df
 
 #data.frame(koyIntersectDf$IKAMET, koyIntersectDf$Başarılı.Mı)
 
 koyBasariliSayisi <- nrow(koyIntersectDf)
 
-# Merkezde (1) yaşayan başarılı öğrenci (1) sayısı
+# Number of successful students (1) living in the center (1)
 merkezDf <- filter(df, IKAMET == 1)
 merkezIntersectDf <- intersect(merkezDf, basariliDf)
-# Kesişim df
+# Intersection df
 
 #data.frame(merkezIntersectDf$IKAMET, merkezIntersectDf$Başarılı.Mı)
 
 merkezBasariliSayisi <- nrow(merkezIntersectDf)
 
 if (koyBasariliSayisi > merkezBasariliSayisi) {
-  print("Köy başarılı")
+  print("Students living in the village are more successful.")
 } else {
-  print("Şehir Merkez başarılı")
+  print("Students living in the city center are more successful.")
 }
   
 ```
 
-2.  Anne ve babanın ayrı olmasından en olumsuz kızlar mı yoksa erkekler mi etkilenmiştir.
+2.  Are girls or boys most negatively affected by the separation of parents ?
 
 Answer 2
 
 ```{r}
 #df$Anne.ve.babası.ayrı.mı.
 
-#Anne ve Baba ayrı mı (1) kız (0) ve başarısız (0) öğrenci sayısı
+#Are Mother and Father separate (1) number of girls (0) and unsuccessful (0) students
 
 #df$CINSIYET
 #df$Başarılı.Mı
@@ -204,30 +204,30 @@ anneVeBabaAyriMiKızBasarisizDf <- filter(df, Anne.ve.babası.ayrı.mı. == 1 & 
 
 anneVeBabaAyriMiKızBasarisizSayisi <- nrow(anneVeBabaAyriMiKızBasarisizDf)
 
-#Anne ve Baba ayrı mı (1) erkek (1) ve başarısız (0) öğrenci sayısı
+#Are Mother and Father separate (1) boy (1) and unsuccessful (0) number of students
 anneVeBabaAyriMiErkekBasarisizDf <- filter(df, Anne.ve.babası.ayrı.mı. == 1 & CINSIYET == 1 & Başarılı.Mı == 0)
 
 anneVeBabaAyriMiErkekBasarisizSayisi <- nrow(anneVeBabaAyriMiErkekBasarisizDf)
 
 if (anneVeBabaAyriMiKızBasarisizSayisi > anneVeBabaAyriMiErkekBasarisizSayisi) {
-  print("Anne ve Baba ayrımından en çok etkilenen öğrenciler kız öğrencilerdir.")
+  print("The students most affected by the separation of mothers and fathers are girl students.")
 } else if (anneVeBabaAyriMiKızBasarisizSayisi < anneVeBabaAyriMiErkekBasarisizSayisi) {
-  print("Anne ve Baba ayrımından en çok etkilenen öğrenciler erkek öğrencilerdir.")
+  print("The students most affected by the separation of mothers and fathers are boy students.")
 } else {
-  print("Anne ve Babanın ayrımından her iki cinsiyetde eşit etkileniyor.")
+  print("Both genders were equally affected by the separation of the mother and father.")
 }
 ```
 
-3.  Hangi özellik başarı için daha önemlidir?
+3.  Which attribute is more important to success?
 
 Answer 3
 
 ```{r}
-#Column silmek için
+#to remove a Column
 
 #df = df[,!(names(df) %in% c("Geçer.Mİ","Geçer.Mİ.1", "Geçer.Mİ.2"))]
 
-#df den sadece soruları aldık
+#we only got questions from df
 
 #names(df)
 dfSorular <- df[, !(names(df) %in% c("OKUL", "SINIF", "NO", "ADI.SOYADI", "CINSIYET", "IKAMET", "ORTALAMA"))]
@@ -240,7 +240,7 @@ maxGainIndex <- match(maxGain, informatinGain$importance)
 informatinGain$attributes[maxGainIndex]
 ```
 
-4.  Yeni bir öğrenci geçer not alabilir mi?
+4.  Can a new student get a passing grade?
 
 Answer 4
 
@@ -304,7 +304,7 @@ Answer 5
 #fourCol
 ```
 
-6.  Anne babanın eğitim durumu hangi sınıf seviyesinde daha etkilidir?
+6.  At which grade level is the educational status of the parents more effective?
 
 Answer 6
 
@@ -328,12 +328,12 @@ maxSinif <- max(dt9Mean, dt10Mean, dt11Mean, dt12Mean)
 maxSinif
 
 if (dt9Mean > dt10Mean && dt9Mean > dt11Mean && dt9Mean > dt12Mean) {
-  print("Anne ve babanın eğitim durumu en fazla 9. sınıfları etkilemiştir.")
+  print("The education level of the parents affected the 9th grades the most.")
 } else if (dt10Mean > dt9Mean && dt10Mean > dt11Mean && dt10Mean > dt12Mean) {
-  print("Anne ve babanın eğitim durumu en fazla 10. sınıfları etkilemiştir.")
+  print("The education level of the parents affected the 10th grades the most.")
 } else if (dt11Mean > dt9Mean && dt11Mean > dt10Mean && dt11Mean > dt12Mean) {
-  print("Anne ve babanın eğitim durumu en fazla 11. sınıfları etkilemiştir.")
+  print("The education level of the parents affected the 11th grades the most.")
 } else {
-  print("Anne ve babanın eğitim durumu en fazla 12. sınıfları etkilemiştir.")
+  print("The education level of the parents affected the 12th grades the most.")
 }
 ```
