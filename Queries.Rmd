@@ -196,7 +196,7 @@ Answer 2
 ```{r}
 #df$Anne.ve.babası.ayrı.mı.
 
-#Are Mother and Father separate (1) number of girls (0) and unsuccessful (0) students
+#Mother and Father separate (1) number of girls (0) and unsuccessful (0) students
 
 #df$CINSIYET
 #df$Başarılı.Mı
@@ -204,7 +204,7 @@ anneVeBabaAyriMiKızBasarisizDf <- filter(df, Anne.ve.babası.ayrı.mı. == 1 & 
 
 anneVeBabaAyriMiKızBasarisizSayisi <- nrow(anneVeBabaAyriMiKızBasarisizDf)
 
-#Are Mother and Father separate (1) boy (1) and unsuccessful (0) number of students
+#Mother and Father separate (1) number of boys (0) and unsuccessful (0) students
 anneVeBabaAyriMiErkekBasarisizDf <- filter(df, Anne.ve.babası.ayrı.mı. == 1 & CINSIYET == 1 & Başarılı.Mı == 0)
 
 anneVeBabaAyriMiErkekBasarisizSayisi <- nrow(anneVeBabaAyriMiErkekBasarisizDf)
@@ -287,26 +287,9 @@ cm
 confusionMatrix(cm)
 ```
 
-BAKILCAK OLMADI DEĞİŞECEK
-5.  En benzer ve en farklı öğrenciler (4 col)
+5.  At which grade level is the educational status of the parents more effective?
 
 Answer 5
-
-```{r}
-#install.packages("cluster")
-#library(cluster)
-#df$ADI.SOYADI
-#df$Anne.en.fazla.ilkokul.mezunu.mu.
-#df$Anne.ve.baba.boşanmış.mı.
-#df$Anne.hayatta.değil
-#df$Dede.Nene.ile.Yaşayan
-#fourCol <- df[, (names(df) %in% c("ADI.SOYADI", "Anne.en.fazla.ilkokul.mezunu.mu.", "Anne.ve.baba.boşanmış.mı.", "Anne.hayatta.değil", "Dede.Nene.ile.Yaşayan"))]
-#fourCol
-```
-
-6.  At which grade level is the educational status of the parents more effective?
-
-Answer 6
 
 ```{r}
 #df$Anne.en.fazla.ilkokul.mezunu.mu.
