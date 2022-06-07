@@ -147,7 +147,7 @@ yealMatrix <- matrix(ylabYeal, 2, 4, byrow = TRUE, dimnames = list(c("Boy", "Gir
 
 barplot(yealMatrix, col = c("red", "blue"), main = "Showing The Most Elementary School Graduations of YEAL Students' Parents", names.arg = xlab)
 ```
-BOX PLOT
+
 ```{r}
 #qqplots
 qqnorm(df$ORTALAMA, pch = 1, frame = FALSE,xlab = "ORTALAMA" )
@@ -167,8 +167,7 @@ df <- transform(df, Başarılı.Mı= ifelse(ort >= ORTALAMA, 0, 1))
 #data.frame(df$ORTALAMA,df$Başarılı.Mı)
 ```
 
-
-QUESTIONS: 1. Are students living in the village more successful than those living in the city center?
+## Q1 Are students living in the village more successful than those living in the city center?
 
 Answer 1
 
@@ -203,7 +202,7 @@ if (koyBasariliSayisi > merkezBasariliSayisi) {
   
 ```
 
-2.  Are girls or boys most negatively affected by the separation of parents ?
+## Q2 Are girls or boys most negatively affected by the separation of parents ?
 
 Answer 2
 
@@ -232,7 +231,7 @@ if (anneVeBabaAyriMiKızBasarisizSayisi > anneVeBabaAyriMiErkekBasarisizSayisi) 
 }
 ```
 
-3.  Which attribute is more important to success?
+## Q3 Which attribute is more important to success?
 
 Answer 3
 
@@ -244,8 +243,7 @@ Answer 3
 #we only got questions from df
 
 #names(df)
-df$`ADI SOYADI`
-dfSorular <- df[, !(names(df) %in% c("OKUL", "SINIF", "NO", "ADI SOYADI", "CINSIYET", "IKAMET", "ORTALAMA"))]
+dfSorular <- df[, !(names(df) %in% c("OKUL", "SINIF", "NO", "ADI.SOYADI", "CINSIYET", "IKAMET", "ORTALAMA"))]
 
 #install.packages("FSelectorRcpp")
 library("FSelectorRcpp")
@@ -255,7 +253,7 @@ maxGainIndex <- match(maxGain, informatinGain$importance)
 informatinGain$attributes[maxGainIndex]
 ```
 
-4.  Can a new student get a passing grade?
+## Q4 Can a new student get a passing grade?
 
 Answer 4
 
@@ -265,6 +263,8 @@ Answer 4
 #install.packages("caTools")
 #install.packages("caret")
 
+library(ggplot2)
+library(lattice)
 library(e1071)
 library(caTools)
 library(caret)
@@ -294,21 +294,26 @@ cm <- table(testCl$Başarılı.Mı, yPred)
 confusionMatrix(cm)
 ```
 
-## 5.  At which grade level is the educational status of the parents more effective?
+## Q5 At which grade level is the educational status of the parents more effective?
 
 Answer 5
 
 ```{r}
-#df$Anne.en.fazla.ilkokul.mezunu.mu.
-df$`Baba en fazla ilkokul mezunu mu?`
-#df1 <- transform(df, Anne.ve.Baba.en.fazla.ilkokul.mezunu.Mu = ifelse("Anne en fazla ilkokul mezunu mu?" & "Baba en fazla ilkokul mezunu mu?", 1, 0))
+#df$Baba.en.fazla.ilkokul.mezunu.mu.
+#df$`Baba en fazla ilkokul mezunu mu?`
+df1 <- transform(df, Anne.ve.Baba.en.fazla.ilkokul.mezunu.Mu = ifelse(Anne.en.fazla.ilkokul.mezunu.mu. & Baba.en.fazla.ilkokul.mezunu.mu., 1, 0))
 
 #data.frame(df1$Anne.en.fazla.ilkokul.mezunu.mu., df1$Baba.en.fazla.ilkokul.mezunu.mu., df1$Anne.ve.Baba.en.fazla.ilkokul.mezunu.Mu)
+dt9 <- data.table(df1)[SINIF %like% "9"]
+dt10 <- data.table(df1)[SINIF %like% "10"]
+dt11 <- data.table(df1)[SINIF %like% "11"]
+dt12 <- data.table(df1)[SINIF %like% "12"]
 
-dt9 <- filter(dt9, `Anne veya baba en fazla ilkokul mezunu mu?` == 0)
-dt10 <- filter(dt10, `Anne veya baba en fazla ilkokul mezunu mu?` == 0)
-dt11 <- filter(dt11, `Anne veya baba en fazla ilkokul mezunu mu?` == 0)
-dt12 <- filter(dt12, `Anne veya baba en fazla ilkokul mezunu mu?` == 0)
+#dt9$Anne.ve.Baba.en.fazla.ilkokul.mezunu.Mu
+dt9 <- filter(dt9, `Anne.ve.Baba.en.fazla.ilkokul.mezunu.Mu` == 0)
+dt10 <- filter(dt10, `Anne.ve.Baba.en.fazla.ilkokul.mezunu.Mu` == 0)
+dt11 <- filter(dt11, `Anne.ve.Baba.en.fazla.ilkokul.mezunu.Mu` == 0)
+dt12 <- filter(dt12, `Anne.ve.Baba.en.fazla.ilkokul.mezunu.Mu` == 0)
 
 dt9Mean <- mean(dt9$ORTALAMA)
 dt10Mean <- mean(dt10$ORTALAMA)
@@ -316,7 +321,7 @@ dt11Mean <- mean(dt11$ORTALAMA)
 dt12Mean <- mean(dt12$ORTALAMA)
 
 maxSinif <- max(dt9Mean, dt10Mean, dt11Mean, dt12Mean)
-maxSinif
+#maxSinif
 
 if (dt9Mean > dt10Mean && dt9Mean > dt11Mean && dt9Mean > dt12Mean) {
   print("The education level of the parents affected the 9th grades the most.")
