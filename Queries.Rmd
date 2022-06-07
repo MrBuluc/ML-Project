@@ -332,4 +332,12 @@ if (dt9Mean > dt10Mean && dt9Mean > dt11Mean && dt9Mean > dt12Mean) {
 } else {
   print("The education level of the parents affected the 12th grades the most.")
 }
+
+xlab <- c("Mother graduated", "not", "Father graduated", "not")
+ylab <- c(oalErkekAnne1, oalErkekAnne0, oalErkekBaba1, oalErkekBaba0,
+          oalKızAnne1, oalKızAnne0, oalKızBaba1, oalKızBaba0)
+
+oalMatrix <- matrix(ylab, 2, 4, byrow = TRUE, dimnames = list(c("Boy", "Girl"), xlab))
+
+barplot(oalMatrix, col = c("red", "blue"), main = "Showing The Most Elementary School Graduations of Oal Students' Parents", names.arg = xlab)
 ```
