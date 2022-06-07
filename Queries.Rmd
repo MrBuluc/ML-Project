@@ -199,7 +199,13 @@ if (koyBasariliSayisi > merkezBasariliSayisi) {
 } else {
   print("Students living in the city center are more successful.")
 }
-  
+ 
+# xlab <- c("Village", "City Center")
+# ylab <- c(koyBasariliSayisi, merkezBasariliSayisi)
+# 
+# cityMatrix <- matrix(ylab, 1, 2, byrow = TRUE, dimnames = list(c("q1"), xlab))
+# 
+# barplot(cityMatrix, col = c("red"), main = "Students Living In Village More Successful Than Living In City Center?", names.arg = xlab) 
 ```
 
 ## Q2 Are girls or boys most negatively affected by the separation of parents ?
@@ -229,6 +235,13 @@ if (anneVeBabaAyriMiKızBasarisizSayisi > anneVeBabaAyriMiErkekBasarisizSayisi) 
 } else {
   print("Both genders were equally affected by the separation of the mother and father.")
 }
+
+# xlab <- c("Girl", "Boy")
+# ylab <- c(anneVeBabaAyriMiKızBasarisizSayisi, anneVeBabaAyriMiErkekBasarisizSayisi)
+# 
+# q2Matrix <- matrix(ylab, 1, 2, byrow = TRUE, dimnames = list(c("q2"), xlab))
+# 
+# barplot(q2Matrix, col = c("red"), main = "Are Girls or Boys Most Negatively Affected By The Separation of Parents ?", names.arg = xlab)
 ```
 
 ## Q3 Which attribute is more important to success?
@@ -333,11 +346,10 @@ if (dt9Mean > dt10Mean && dt9Mean > dt11Mean && dt9Mean > dt12Mean) {
   print("The education level of the parents affected the 12th grades the most.")
 }
 
-xlab <- c("Mother graduated", "not", "Father graduated", "not")
-ylab <- c(oalErkekAnne1, oalErkekAnne0, oalErkekBaba1, oalErkekBaba0,
-          oalKızAnne1, oalKızAnne0, oalKızBaba1, oalKızBaba0)
-
-oalMatrix <- matrix(ylab, 2, 4, byrow = TRUE, dimnames = list(c("Boy", "Girl"), xlab))
-
-barplot(oalMatrix, col = c("red", "blue"), main = "Showing The Most Elementary School Graduations of Oal Students' Parents", names.arg = xlab)
+# xlab <- c("9 Grade", "10 Grade", "11 Grade", "12 Grade")
+# ylab <- c(dt9Mean, dt10Mean, dt11Mean, dt12Mean)
+# 
+# gradeMatrix <- matrix(ylab, 1, 4, byrow = TRUE, dimnames = list(c("grades"), xlab))
+# 
+# barplot(gradeMatrix, col = c("red"), main = "Which grade level is educational status of the parents more effective?", names.arg = xlab)
 ```
