@@ -264,6 +264,8 @@ informatinGain <- information_gain(formula(dfSorular), dfSorular, equal = TRUE)
 maxGain <- max(informatinGain$importance)
 maxGainIndex <- match(maxGain, informatinGain$importance)
 informatinGain$attributes[maxGainIndex]
+
+# barplot(height = informatinGain$importance, names = informatinGain$attributes,col = c("red"), main = "Which attribute is more important to success?")
 ```
 
 ## Q4 Can a new student get a passing grade?
