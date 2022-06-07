@@ -1,10 +1,14 @@
 ---
-title: "AML Project"
-output: html_document
-date: '2022-06-02'
+title: "APPLIED MACHINE LEARNING FINAL PROJECT"
+subtitle: Hakkıcan BÜLÜÇ - 180709061 / Hüseyin ÇOBAN - 180709018 / Adem VAROL - 200709078
+output:
+  html_document: default
+  pdf_document: default
+font-family: Gill Sans
+# author: "Hakkıcan BÜLÜÇ - 180709061 / Hüseyin ÇOBAN - 180709018 / Adem VAROL - 200709078"
+# date: '2022-06-02'
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 ---
-Rapor için data summary yapılabilir (öğrencilerin yüzde kaçının annesi ölmüş gibi) sunum yapılacak herkes orada olacak sunum paylaşılacak rapor yazılacak. template paylaşılacak
-
 GROUP MEMBERS
 Hakkıcan BÜLÜÇ - 180709061
 Hüseyin ÇOBAN - 180709018
@@ -14,15 +18,17 @@ Data Summary
 
 Data read from excel file
 ```{r}
-install.packages("readxl")
+#install.packages("readxl")
 library(readxl)
 # Enter the path where the data is
 df <- read_excel("01.AML_DATA_Etiketleri_Duzenlenmis.xls")
 df
 names(df)
+
+summary(df$ORTALAMA)
 ```
 ```{r}
-install.packages("dplyr")
+#install.packages("dplyr")
 library(dplyr)
 # Okul
 # Ortaca Anadolu Lisesi (oal) student count
@@ -36,10 +42,10 @@ nrow(filter(df, OKUL == "YEAL"))
 # Class
 library(data.table)
 #df1$SINIF
-dt9 <- data.table(df1)[SINIF %like% "9"]
-dt10 <- data.table(df1)[SINIF %like% "10"]
-dt11 <- data.table(df1)[SINIF %like% "11"]
-dt12 <- data.table(df1)[SINIF %like% "12"]
+dt9 <- data.table(df)[SINIF %like% "9"]
+dt10 <- data.table(df)[SINIF %like% "10"]
+dt11 <- data.table(df)[SINIF %like% "11"]
+dt12 <- data.table(df)[SINIF %like% "12"]
 # 9. grade count
 nrow(dt9)
 ```
@@ -141,7 +147,15 @@ yealMatrix <- matrix(ylabYeal, 2, 4, byrow = TRUE, dimnames = list(c("Boy", "Gir
 
 barplot(yealMatrix, col = c("red", "blue"), main = "Showing The Most Elementary School Graduations of YEAL Students' Parents", names.arg = xlab)
 ```
+BOX PLOT
+```{r}
+#qqplots
+qqnorm(df$ORTALAMA, pch = 1, frame = FALSE,xlab = "ORTALAMA" )
+#qqline(dFile$ORTALAMA, col = "steelblue", lwd = 2)
 
+#boxplots
+boxplot(df$ORTALAMA)
+```
 
 ```{r}
 #Calculate successful students
@@ -150,7 +164,7 @@ barplot(yealMatrix, col = c("red", "blue"), main = "Showing The Most Elementary 
 ort <- mean(df$ORTALAMA)
 #ort
 df <- transform(df, Başarılı.Mı= ifelse(ort >= ORTALAMA, 0, 1))
-data.frame(df$ORTALAMA,df$Başarılı.Mı)
+#data.frame(df$ORTALAMA,df$Başarılı.Mı)
 ```
 
 
@@ -230,9 +244,10 @@ Answer 3
 #we only got questions from df
 
 #names(df)
-dfSorular <- df[, !(names(df) %in% c("OKUL", "SINIF", "NO", "ADI.SOYADI", "CINSIYET", "IKAMET", "ORTALAMA"))]
+df$`ADI SOYADI`
+dfSorular <- df[, !(names(df) %in% c("OKUL", "SINIF", "NO", "ADI SOYADI", "CINSIYET", "IKAMET", "ORTALAMA"))]
 
-install.packages("FSelectorRcpp")
+#install.packages("FSelectorRcpp")
 library("FSelectorRcpp")
 informatinGain <- information_gain(formula(dfSorular), dfSorular, equal = TRUE)
 maxGain <- max(informatinGain$importance)
@@ -246,9 +261,9 @@ Answer 4
 
 ```{r}
 #https://www.geeksforgeeks.org/naive-bayes-classifier-in-r-programming/
-install.packages("e1071")
-install.packages("caTools")
-install.packages("caret")
+#install.packages("e1071")
+#install.packages("caTools")
+#install.packages("caret")
 
 library(e1071)
 library(caTools)
@@ -257,50 +272,43 @@ library(caret)
 # Splitting data into train
 # and test data
 split <- sample.split(dfSorular, SplitRatio = 0.7)
-split
 trainCl <- subset(dfSorular, split == "TRUE")
-trainCl
 testCl <- subset(dfSorular, split == "FALSE")
-testCl
 
 # Feature Scaling
 trainScale <- scale(trainCl[, 1:4])
-trainScale
 testScale <- scale(testCl[, 1:4])
-testScale
 
 # Fitting Naive Bayes Model
 # to training dataset
 set.seed(120) #Setting Seed
 classifierCl <- naiveBayes(formula(dfSorular), data = trainCl)
-classifierCl
 
 # Predicting on test data'
 yPred <- predict(classifierCl, newdata = testCl)
-yPred
 
 # Confusion Matrix
 cm <- table(testCl$Başarılı.Mı, yPred)
-cm
 
 # Model Evaluation
 confusionMatrix(cm)
 ```
 
-5.  At which grade level is the educational status of the parents more effective?
+## 5.  At which grade level is the educational status of the parents more effective?
 
 Answer 5
 
 ```{r}
 #df$Anne.en.fazla.ilkokul.mezunu.mu.
-#df$Baba.en.fazla.ilkokul.mezunu.mu.
-df1 <- transform(df, Anne.ve.Baba.en.fazla.ilkokul.mezunu.Mu = ifelse(Anne.en.fazla.ilkokul.mezunu.mu. & Baba.en.fazla.ilkokul.mezunu.mu., 1, 0))
-data.frame(df1$Anne.en.fazla.ilkokul.mezunu.mu., df1$Baba.en.fazla.ilkokul.mezunu.mu., df1$Anne.ve.Baba.en.fazla.ilkokul.mezunu.Mu)
+df$`Baba en fazla ilkokul mezunu mu?`
+#df1 <- transform(df, Anne.ve.Baba.en.fazla.ilkokul.mezunu.Mu = ifelse("Anne en fazla ilkokul mezunu mu?" & "Baba en fazla ilkokul mezunu mu?", 1, 0))
 
-dt9 <- filter(dt9, Anne.ve.Baba.en.fazla.ilkokul.mezunu.Mu == 0)
-dt10 <- filter(dt10, Anne.ve.Baba.en.fazla.ilkokul.mezunu.Mu == 0)
-dt11 <- filter(dt11, Anne.ve.Baba.en.fazla.ilkokul.mezunu.Mu == 0)
-dt12 <- filter(dt12, Anne.ve.Baba.en.fazla.ilkokul.mezunu.Mu == 0)
+#data.frame(df1$Anne.en.fazla.ilkokul.mezunu.mu., df1$Baba.en.fazla.ilkokul.mezunu.mu., df1$Anne.ve.Baba.en.fazla.ilkokul.mezunu.Mu)
+
+dt9 <- filter(dt9, `Anne veya baba en fazla ilkokul mezunu mu?` == 0)
+dt10 <- filter(dt10, `Anne veya baba en fazla ilkokul mezunu mu?` == 0)
+dt11 <- filter(dt11, `Anne veya baba en fazla ilkokul mezunu mu?` == 0)
+dt12 <- filter(dt12, `Anne veya baba en fazla ilkokul mezunu mu?` == 0)
 
 dt9Mean <- mean(dt9$ORTALAMA)
 dt10Mean <- mean(dt10$ORTALAMA)
