@@ -254,6 +254,7 @@ if (window.hljs) {
 
 
 
+
 <style type="text/css">
 .main-container {
   max-width: 940px;
@@ -274,6 +275,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -360,13 +364,15 @@ pre code {
 <h1 class="title toc-ignore">APPLIED MACHINE LEARNING FINAL PROJECT</h1>
 <h3 class="subtitle">Hakkıcan BÜLÜÇ - 180709061 / Hüseyin ÇOBAN -
 180709018 / Adem VAROL - 200709078</h3>
-<h4 class="date">07 Haziran, 2022</h4>
+<h4 class="date">08 Haziran, 2022</h4>
 
 </div>
 
 
-<p>GROUP MEMBERS Hakkıcan BÜLÜÇ - 180709061 Hüseyin ÇOBAN - 180709018
-Adem VAROL - 200709078</p>
+<div id="group-members" class="section level2">
+<h2>GROUP MEMBERS</h2>
+<p>Hakkıcan BÜLÜÇ - 180709061 Hüseyin ÇOBAN - 180709018 Adem VAROL -
+200709078</p>
 <p>Data Summary</p>
 <p>Data read from excel file</p>
 <pre class="r"><code>#install.packages(&quot;readxl&quot;)
@@ -374,10 +380,10 @@ library(readxl)
 # Enter the path where the data is
 df &lt;- read_excel(&quot;01.AML_DATA_Etiketleri_Duzenlenmis.xls&quot;)
 df</code></pre>
-<pre><code>## # A tibble: 1,119 x 21
-##    OKUL  SINIF    NO `ADI SOYADI`      CINSIYET IKAMET ORTALAMA `Anne en fazla~`
+<pre><code>## # A tibble: 1,119 × 21
+##    OKUL  SINIF    NO `ADI SOYADI`      CINSIYET IKAMET ORTALAMA `Anne en fazla…`
 ##    &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;                &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;            &lt;dbl&gt;
-##  1 OAL   9-A     124 Almıla Gökçe Kes~        0      1     86.8                0
+##  1 OAL   9-A     124 Almıla Gökçe Kes…        0      1     86.8                0
 ##  2 OAL   9-A     125 Alperen Sarı             1      1     61.1                0
 ##  3 OAL   9-A     126 Aral Bora Ceyhan         1      1     70.7                0
 ##  4 OAL   9-A     127 Arda Acar                1      1     78.4                1
@@ -386,14 +392,14 @@ df</code></pre>
 ##  7 OAL   9-A     130 Ayşenur Şık              0      1     66.3                1
 ##  8 OAL   9-A     131 Buse Hekim               0      0     74.3                1
 ##  9 OAL   9-A     132 Buse Doğan               0      0     66.4                0
-## 10 OAL   9-A     133 Meryem Göksu Gün~        0      1     83.2                0
-## # ... with 1,109 more rows, and 13 more variables:
+## 10 OAL   9-A     133 Meryem Göksu Gün…        0      1     83.2                0
+## # … with 1,109 more rows, and 13 more variables:
 ## #   `Baba en fazla ilkokul mezunu mu?` &lt;dbl&gt;, `Öğrenci tek çocuk mu?` &lt;dbl&gt;,
 ## #   `Öğrenci 3 ve üstü kardeş mi?` &lt;dbl&gt;, `Anne ve baba boşanmış mı?` &lt;dbl&gt;,
 ## #   `Anne ve babası ayrı mı?` &lt;dbl&gt;, `Öğrenci anne ile mi yaşıyor?` &lt;dbl&gt;,
 ## #   `Öğrenci baba ile mi yaşıyor?` &lt;dbl&gt;, `Anne hayatta değil` &lt;dbl&gt;,
 ## #   `Baba hayatta değil` &lt;dbl&gt;, `Anne ve babası hayatta olmayan` &lt;dbl&gt;,
-## #   `Dede/Nene ile Yaşayan` &lt;dbl&gt;, ...</code></pre>
+## #   `Dede/Nene ile Yaşayan` &lt;dbl&gt;, `Ailesinde süreğen hastalığı olan` &lt;dbl&gt;, …</code></pre>
 <pre class="r"><code>names(df)</code></pre>
 <pre><code>##  [1] &quot;OKUL&quot;                               &quot;SINIF&quot;                             
 ##  [3] &quot;NO&quot;                                 &quot;ADI SOYADI&quot;                        
@@ -539,6 +545,7 @@ ort &lt;- mean(df$ORTALAMA)
 #ort
 df &lt;- transform(df, Başarılı.Mı= ifelse(ort &gt;= ORTALAMA, 0, 1))
 #data.frame(df$ORTALAMA,df$Başarılı.Mı)</code></pre>
+</div>
 <div id="q1-are-students-living-in-the-village-more-successful-than-those-living-in-the-city-center" class="section level2">
 <h2>Q1 Are students living in the village more successful than those
 living in the city center?</h2>
@@ -661,26 +668,26 @@ confusionMatrix(cm)</code></pre>
 ## 
 ##    yPred
 ##       0   1
-##   0 157  31
-##   1 154  32
+##   0 139  48
+##   1 143  44
 ##                                           
-##                Accuracy : 0.5053          
-##                  95% CI : (0.4535, 0.5571)
-##     No Information Rate : 0.8316          
+##                Accuracy : 0.4893          
+##                  95% CI : (0.4376, 0.5412)
+##     No Information Rate : 0.754           
 ##     P-Value [Acc &gt; NIR] : 1               
 ##                                           
-##                   Kappa : 0.0072          
+##                   Kappa : -0.0214         
 ##                                           
-##  Mcnemar&#39;s Test P-Value : &lt;2e-16          
+##  Mcnemar&#39;s Test P-Value : 1.035e-11       
 ##                                           
-##             Sensitivity : 0.5048          
-##             Specificity : 0.5079          
-##          Pos Pred Value : 0.8351          
-##          Neg Pred Value : 0.1720          
-##              Prevalence : 0.8316          
-##          Detection Rate : 0.4198          
-##    Detection Prevalence : 0.5027          
-##       Balanced Accuracy : 0.5064          
+##             Sensitivity : 0.4929          
+##             Specificity : 0.4783          
+##          Pos Pred Value : 0.7433          
+##          Neg Pred Value : 0.2353          
+##              Prevalence : 0.7540          
+##          Detection Rate : 0.3717          
+##    Detection Prevalence : 0.5000          
+##       Balanced Accuracy : 0.4856          
 ##                                           
 ##        &#39;Positive&#39; Class : 0               
 ## </code></pre>

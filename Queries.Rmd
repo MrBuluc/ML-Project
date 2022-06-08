@@ -9,7 +9,7 @@ font-family: Gill Sans
 # date: '2022-06-02'
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 ---
-GROUP MEMBERS
+## GROUP MEMBERS
 Hakkıcan BÜLÜÇ - 180709061
 Hüseyin ÇOBAN - 180709018
 Adem VAROL - 200709078
