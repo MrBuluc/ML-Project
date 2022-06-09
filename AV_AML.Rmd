@@ -47,6 +47,13 @@ sprintf(" 9. GRADE: %d",nrow(dt9))
 sprintf("10. GRADE: %d",nrow(dt10))
 sprintf("11. GRADE: %d",nrow(dt11))
 sprintf("12. GRADE: %d",nrow(dt12))
+
+xlab <- c("9. GRADE", "10. GRADE", "11. GRADE", "12. GRADE")
+ylab <- c(nrow(dt9), nrow(dt10), nrow(dt11), nrow(dt12))
+
+gradeMatrix <- matrix(ylab, 1, 4, byrow = TRUE, dimnames = list(c("Grades"), xlab))
+
+barplot(gradeMatrix, col = c("red"), main = "Grades Counts", names.arg = xlab)
 ```
 ```{r}
 # GENDER COUNT
