@@ -156,7 +156,7 @@ if (koyBasariliSayisi > merkezBasariliSayisi) {
   
 ```
 
-## Q2 Are girls or boys most negatively affected by the separation of parents ?
+## Q2 Are girls or boys most negatively affected by the separation of parents?
 # Answer 2
 
 ```{r}
