@@ -115,7 +115,7 @@ ylabYeal <- c(yealErkekAnne1, yealErkekAnne0, yealErkekBaba1, yealErkekBaba0,
 
 yealMatrix <- matrix(ylabYeal, 2, 4, byrow = TRUE, dimnames = list(c("Boy", "Girl"), xlab))
 
-barplot(yealMatrix, col = c("red", "blue"), main = "Most Elementary School Graduations of YEAL Students' Parents", names.arg = xlab)
+barplot(yealMatrix, col=c("red", "blue"),main="Most Elementary School Graduations of YEAL Students' Parents",names.arg=xlab)
 ```
 
 ```{r}
