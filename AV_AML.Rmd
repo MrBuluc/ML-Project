@@ -1,109 +1,80 @@
 ---
 title: "APPLIED MACHINE LEARNING FINAL PROJECT"
-subtitle: Hakkıcan BÜLÜÇ - 180709061 / Hüseyin ÇOBAN - 180709018 / Adem VAROL - 200709078
 output:
   html_document: default
   pdf_document: default
 font-family: Gill Sans
-# author: "Hakkıcan BÜLÜÇ - 180709061 / Hüseyin ÇOBAN - 180709018 / Adem VAROL - 200709078"
-# date: '2022-06-02'
-date: "`r format(Sys.time(), '%d %B, %Y')`"
+date: "`r format(Sys.time(), '%d %B %Y')`"
 ---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
 ## GROUP MEMBERS
-Hakkıcan BÜLÜÇ - 180709061
-Hüseyin ÇOBAN - 180709018
-Adem VAROL - 200709078
+Hakkıcan BÜLÜÇ-180709061 / Adem VAROL-200709078 / Hüseyin ÇOBAN-180709018
 
-Data Summary
-
+## DATA SUMMARY   
 Data read from excel file
 ```{r}
 #install.packages("readxl")
 library(readxl)
 # Enter the path where the data is
-df <- read_excel("01.AML_DATA_Etiketleri_Duzenlenmis.xls")
-df
+df <- read_excel("AML_DATA.xls")
 names(df)
-
 summary(df$ORTALAMA)
 ```
+
 ```{r}
 #install.packages("dplyr")
 library(dplyr)
-# Okul
-# Ortaca Anadolu Lisesi (oal) student count
-nrow(filter(df, OKUL == "OAL"))
+
+# Student count
+sprintf("Number of students in school OAL  : %d",nrow(filter(df, OKUL == "OAL")))
+sprintf("Number of students in school YEAL : %d",nrow(filter(df, OKUL == "YEAL")))
 ```
+
 ```{r}
-# Yunus Emre Anadolu Lisesi (yeal) student count
-nrow(filter(df, OKUL == "YEAL"))
-```
-```{r}
-# Class
 library(data.table)
-#df1$SINIF
+#CLASSES
 dt9 <- data.table(df)[SINIF %like% "9"]
 dt10 <- data.table(df)[SINIF %like% "10"]
 dt11 <- data.table(df)[SINIF %like% "11"]
 dt12 <- data.table(df)[SINIF %like% "12"]
-# 9. grade count
-nrow(dt9)
-```
-```{r}
-# 10. grade count
-nrow(dt10)
-```
-```{r}
-# 11. grade count
-nrow(dt11)
-```
-```{r}
-# 12. grade count
-nrow(dt12)
-```
-```{r}
-# Sex
-# boy
-nrow(filter(df, CINSIYET == 1))
-```
-```{r}
-# girl
-nrow(filter(df, CINSIYET == 0))
-```
-```{r}
-# From
-# City Center
-nrow(filter(df, IKAMET == 1))
-```
-```{r}
-# Village
-nrow(filter(df, IKAMET == 0))
-```
-```{r}
-# Mean
-mean(df$ORTALAMA)
-```
-```{r}
-# Oal Mean
-mean(filter(df, OKUL == "OAL")$ORTALAMA)
-```
-```{r}
-# Yeal Mean
-mean(filter(df, OKUL == "YEAL")$ORTALAMA)
-```
-```{r}
-#Most successful student
 
-#maxOrt <- max(df$ORTALAMA)
-#maxOrtIndex <- match(maxOrt, df$ORTALAMA)
-#df$ADI.SOYADI[maxOrtIndex]
-
-df$`ADI SOYADI`[match(max(df$ORTALAMA), df$ORTALAMA)]
-
+# CLASS COUNT
+sprintf(" 9. GRADE: %d",nrow(dt9))
+sprintf("10. GRADE: %d",nrow(dt10))
+sprintf("11. GRADE: %d",nrow(dt11))
+sprintf("12. GRADE: %d",nrow(dt12))
 ```
 ```{r}
-#Bar graph showing the most elementary school graduations of Oal students' parents
+# GENDER COUNT
+sprintf("NUMBER OF GIRLS: %d",nrow(filter(df, CINSIYET == 0)))
+sprintf("NUMBER OF BOYS : %d",nrow(filter(df, CINSIYET == 1)))
+```
 
+```{r}
+# CITY - VILLAGE COUNT
+sprintf("Number of people living in the village : %d",nrow(filter(df, IKAMET == 0)))
+sprintf("Number of people living in the city    : %d",nrow(filter(df, IKAMET == 1)))
+```
+
+```{r}
+# MEANS
+
+sprintf("Cumulative grade point average : %f",mean(df$ORTALAMA))
+sprintf("rade point average of OAL      : %f",mean(filter(df, OKUL == "OAL")$ORTALAMA))
+sprintf("rade point average of YEAL     : %f",mean(filter(df, OKUL == "YEAL")$ORTALAMA))
+```
+
+```{r}
+# MOST SUCCESFUL STUDENT
+sprintf("The student with the highest average : %s",df$`ADI SOYADI`[match(max(df$ORTALAMA), df$ORTALAMA)])
+```
+
+```{r}
+#Bar graph showing the most elementary school graduations of OAL students' parents
 oal <- filter(df, OKUL == "OAL")
 oal <- oal[, (names(oal) %in% c("CINSIYET", "Anne en fazla ilkokul mezunu mu?", "Baba en fazla ilkokul mezunu mu?"))]
 oalErkekAnne1 <- nrow(filter(oal, CINSIYET == 1 & `Anne en fazla ilkokul mezunu mu?` == 1))
@@ -116,18 +87,17 @@ oalKızAnne0 <- nrow(filter(oal, CINSIYET == 0 & `Anne en fazla ilkokul mezunu m
 oalKızBaba1 <- nrow(filter(oal, CINSIYET == 0 & `Baba en fazla ilkokul mezunu mu?` == 1))
 oalKızBaba0 <- nrow(filter(oal, CINSIYET == 0 & `Baba en fazla ilkokul mezunu mu?` == 0))
 
-xlab <- c("Mother graduated", "not", "Father graduated", "not")
+xlab <- c("Mother Graduated", "Not", "Father Graduated", "Not")
 ylab <- c(oalErkekAnne1, oalErkekAnne0, oalErkekBaba1, oalErkekBaba0,
           oalKızAnne1, oalKızAnne0, oalKızBaba1, oalKızBaba0)
 
 oalMatrix <- matrix(ylab, 2, 4, byrow = TRUE, dimnames = list(c("Boy", "Girl"), xlab))
 
-barplot(oalMatrix, col = c("red", "blue"), main = "Showing The Most Elementary School Graduations of Oal Students' Parents", names.arg = xlab)
+barplot(oalMatrix, col = c("red", "blue"), main = "Most Elementary School Graduations of OAL Students' Parents", names.arg = xlab)
 ```
 
 ```{r}
-#Bar graph showing the most elementary school graduations of Yeal students' parents
-
+#Bar graph showing the most elementary school graduations of YEAL students' parents
 yeal <- filter(df, OKUL == "YEAL")
 yeal <- yeal[, (names(yeal) %in% c("CINSIYET", "Anne en fazla ilkokul mezunu mu?", "Baba en fazla ilkokul mezunu mu?"))]
 yealErkekAnne1 <- nrow(filter(yeal, CINSIYET == 1 & `Anne en fazla ilkokul mezunu mu?` == 1))
@@ -145,53 +115,37 @@ ylabYeal <- c(yealErkekAnne1, yealErkekAnne0, yealErkekBaba1, yealErkekBaba0,
 
 yealMatrix <- matrix(ylabYeal, 2, 4, byrow = TRUE, dimnames = list(c("Boy", "Girl"), xlab))
 
-barplot(yealMatrix, col = c("red", "blue"), main = "Showing The Most Elementary School Graduations of YEAL Students' Parents", names.arg = xlab)
+barplot(yealMatrix, col = c("red", "blue"), main = "Most Elementary School Graduations of YEAL Students' Parents", names.arg = xlab)
 ```
 
 ```{r}
 #qqplots
-qqnorm(df$ORTALAMA, pch = 1, frame = FALSE,xlab = "ORTALAMA" )
+qqnorm(df$ORTALAMA, pch = 1, frame = FALSE,xlab = "GPA")
 #qqline(dFile$ORTALAMA, col = "steelblue", lwd = 2)
 
 #boxplots
-boxplot(df$ORTALAMA)
+boxplot(df$ORTALAMA,main="BOX PLOT FOR GPA")
 ```
 
 ```{r}
-#Calculate successful students
-
-#df$ORTALAMA
+#Above average students
 ort <- mean(df$ORTALAMA)
-#ort
 df <- transform(df, Başarılı.Mı= ifelse(ort >= ORTALAMA, 0, 1))
-#data.frame(df$ORTALAMA,df$Başarılı.Mı)
 ```
 
 ## Q1 Are students living in the village more successful than those living in the city center?
-
-Answer 1
+# Answer 1
 
 ```{r}
 # Number of successful students (1) living in Village (0)
-
-#df$IKAMET
-#df$Başarılı.Mı
 koyDf <- filter(df, IKAMET == 0)
 basariliDf <- filter(df, Başarılı.Mı == 1)
 koyIntersectDf <- intersect(koyDf, basariliDf)
-# Intersection df
-
-#data.frame(koyIntersectDf$IKAMET, koyIntersectDf$Başarılı.Mı)
-
 koyBasariliSayisi <- nrow(koyIntersectDf)
 
 # Number of successful students (1) living in the center (1)
 merkezDf <- filter(df, IKAMET == 1)
 merkezIntersectDf <- intersect(merkezDf, basariliDf)
-# Intersection df
-
-#data.frame(merkezIntersectDf$IKAMET, merkezIntersectDf$Başarılı.Mı)
-
 merkezBasariliSayisi <- nrow(merkezIntersectDf)
 
 if (koyBasariliSayisi > merkezBasariliSayisi) {
@@ -203,23 +157,15 @@ if (koyBasariliSayisi > merkezBasariliSayisi) {
 ```
 
 ## Q2 Are girls or boys most negatively affected by the separation of parents ?
-
-Answer 2
+# Answer 2
 
 ```{r}
-#df$Anne.ve.babası.ayrı.mı.
-
 #Mother and Father separate (1) number of girls (0) and unsuccessful (0) students
-
-#df$CINSIYET
-#df$Başarılı.Mı
 anneVeBabaAyriMiKızBasarisizDf <- filter(df, Anne.ve.babası.ayrı.mı. == 1 & CINSIYET == 0 & Başarılı.Mı == 0)
-
 anneVeBabaAyriMiKızBasarisizSayisi <- nrow(anneVeBabaAyriMiKızBasarisizDf)
 
 #Mother and Father separate (1) number of boys (0) and unsuccessful (0) students
 anneVeBabaAyriMiErkekBasarisizDf <- filter(df, Anne.ve.babası.ayrı.mı. == 1 & CINSIYET == 1 & Başarılı.Mı == 0)
-
 anneVeBabaAyriMiErkekBasarisizSayisi <- nrow(anneVeBabaAyriMiErkekBasarisizDf)
 
 if (anneVeBabaAyriMiKızBasarisizSayisi > anneVeBabaAyriMiErkekBasarisizSayisi) {
@@ -230,19 +176,9 @@ if (anneVeBabaAyriMiKızBasarisizSayisi > anneVeBabaAyriMiErkekBasarisizSayisi) 
   print("Both genders were equally affected by the separation of the mother and father.")
 }
 ```
-
 ## Q3 Which attribute is more important to success?
-
-Answer 3
-
+# Answer 3
 ```{r}
-#to remove a Column
-
-#df = df[,!(names(df) %in% c("Geçer.Mİ","Geçer.Mİ.1", "Geçer.Mİ.2"))]
-
-#we only got questions from df
-
-#names(df)
 dfSorular <- df[, !(names(df) %in% c("OKUL", "SINIF", "NO", "ADI.SOYADI", "CINSIYET", "IKAMET", "ORTALAMA"))]
 
 #install.packages("FSelectorRcpp")
@@ -250,12 +186,13 @@ library("FSelectorRcpp")
 informatinGain <- information_gain(formula(dfSorular), dfSorular, equal = TRUE)
 maxGain <- max(informatinGain$importance)
 maxGainIndex <- match(maxGain, informatinGain$importance)
-informatinGain$attributes[maxGainIndex]
+
+sprintf("The most important attribute for success : %s",informatinGain$attributes[maxGainIndex])
+
 ```
 
 ## Q4 Can a new student get a passing grade?
-
-Answer 4
+# Answer 4
 
 ```{r}
 #https://www.geeksforgeeks.org/naive-bayes-classifier-in-r-programming/
@@ -295,41 +232,31 @@ confusionMatrix(cm)
 ```
 
 ## Q5 At which grade level is the educational status of the parents more effective?
-
-Answer 5
+# Answer 5
 
 ```{r}
-#df$Baba.en.fazla.ilkokul.mezunu.mu.
-#df$`Baba en fazla ilkokul mezunu mu?`
-df1 <- transform(df, Anne.ve.Baba.en.fazla.ilkokul.mezunu.Mu = ifelse(Anne.en.fazla.ilkokul.mezunu.mu. & Baba.en.fazla.ilkokul.mezunu.mu., 1, 0))
+edusta <- subset(df, df$Anne.en.fazla.ilkokul.mezunu.mu.==1 | df$Baba.en.fazla.ilkokul.mezunu.mu.==1)
 
-#data.frame(df1$Anne.en.fazla.ilkokul.mezunu.mu., df1$Baba.en.fazla.ilkokul.mezunu.mu., df1$Anne.ve.Baba.en.fazla.ilkokul.mezunu.Mu)
-dt9 <- data.table(df1)[SINIF %like% "9"]
-dt10 <- data.table(df1)[SINIF %like% "10"]
-dt11 <- data.table(df1)[SINIF %like% "11"]
-dt12 <- data.table(df1)[SINIF %like% "12"]
+edusta.dt9 <- data.table(edusta)[SINIF %like% "9"]
+edusta.dt10 <- data.table(edusta)[SINIF %like% "10"]
+edusta.dt11 <- data.table(edusta)[SINIF %like% "11"]
+edusta.dt12 <- data.table(edusta)[SINIF %like% "12"]
 
-#dt9$Anne.ve.Baba.en.fazla.ilkokul.mezunu.Mu
-dt9 <- filter(dt9, `Anne.ve.Baba.en.fazla.ilkokul.mezunu.Mu` == 0)
-dt10 <- filter(dt10, `Anne.ve.Baba.en.fazla.ilkokul.mezunu.Mu` == 0)
-dt11 <- filter(dt11, `Anne.ve.Baba.en.fazla.ilkokul.mezunu.Mu` == 0)
-dt12 <- filter(dt12, `Anne.ve.Baba.en.fazla.ilkokul.mezunu.Mu` == 0)
+edusta.dt9.mean <- mean(edusta.dt9$ORTALAMA)
+edusta.dt10.mean <- mean(edusta.dt10$ORTALAMA)
+edusta.dt11.mean <- mean(edusta.dt11$ORTALAMA)
+edusta.dt12.mean <- mean(edusta.dt12$ORTALAMA)
 
-dt9Mean <- mean(dt9$ORTALAMA)
-dt10Mean <- mean(dt10$ORTALAMA)
-dt11Mean <- mean(dt11$ORTALAMA)
-dt12Mean <- mean(dt12$ORTALAMA)
-
-maxSinif <- max(dt9Mean, dt10Mean, dt11Mean, dt12Mean)
-#maxSinif
-
-if (dt9Mean > dt10Mean && dt9Mean > dt11Mean && dt9Mean > dt12Mean) {
-  print("The education level of the parents affected the 9th grades the most.")
-} else if (dt10Mean > dt9Mean && dt10Mean > dt11Mean && dt10Mean > dt12Mean) {
-  print("The education level of the parents affected the 10th grades the most.")
-} else if (dt11Mean > dt9Mean && dt11Mean > dt10Mean && dt11Mean > dt12Mean) {
-  print("The education level of the parents affected the 11th grades the most.")
-} else {
-  print("The education level of the parents affected the 12th grades the most.")
+A<-matrix(c(edusta.dt9.mean, edusta.dt10.mean, edusta.dt11.mean, edusta.dt12.mean), ncol = 1)
+i <- 9
+mingrade <- A[1,1]
+for (val in A[ ,1]) {
+  if(val<mingrade){
+    mingrade <- val
+    cls <-i
+  } 
+  i <- i+1
 }
+sprintf("The education level of the parents affected the %dth grades the most.",cls)
+
 ```
